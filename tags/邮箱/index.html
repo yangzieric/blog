@@ -7,24 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>Sed过滤html标签 | Eric&#39;s blog</title>
-    <meta property="og:title" content="Sed过滤html标签 - Eric&#39;s blog">
+    <title>邮箱 | Eric&#39;s blog</title>
+    <meta property="og:title" content="邮箱 - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content='2010-11-19T15:58:42&#43;08:00'>
-        
-        
-    <meta property="article:modified_time" content='2010-11-19T15:58:42&#43;08:00'>
         
     <meta name="Keywords" content="linux,C&#43;&#43;,C,后台开发,操作系统,数据结构,算法,计算机网络">
-    <meta name="description" content="Sed过滤html标签">
+    <meta name="description" content="邮箱">
         
     <meta name="author" content="杨振良">
-    <meta property="og:url" content="http://blog.nginxs.com/posts/sed-del-html/">
+    <meta property="og:url" content="http://blog.nginxs.com/tags/%E9%82%AE%E7%AE%B1/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.nginxs.com/tags/%E9%82%AE%E7%AE%B1/index.xml" title="Eric's blog" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -66,67 +63,41 @@
                     
 <div class="res-cons">
     
+    <h3 class="archive-title">
+        包含标签
+        <span class="keyword">邮箱</span>
+        的文章
+    </h3>
+    
+
+    
     <article class="post">
         <header>
-            <h1 class="post-title">Sed过滤html标签</h1>
+            <h1 class="post-title">
+                <a href="http://blog.nginxs.com/posts/postfix-mysql-dovecot-postfixadmin/">Postfix Mysql Dovecot Postfixadmin</a>
+            </h1>
         </header>
         <date class="post-meta meta-date">
-            2010年11月19日
+            2010年3月16日
         </date>
         
-        
-        
         <div class="post-content">
-            <p>今天看到这么一道题目·如果过滤html标签 html标签是这样的：</p>
-<pre><code>  &lt;html&gt;&lt;head&gt;&lt;title&gt;Hello World&lt;/title&gt;&lt;/head&gt;
-  &lt;body&gt;Welcome to the world of regexp!&lt;/body&gt;&lt;/html&gt;
-</code></pre><p>当时没犹豫就输入</p>
-<pre><code>  [localhost nginx] $&gt; sed 's/&lt;.*&gt;//g'  index.html
-</code></pre><p>在<a href="http://blog.nginxs.com">nginx</a>服务器上
-结果显示空白两行·自己笨没办法·查了下google 原来是这样的</p>
-<pre><code>  [localhost nginx] $&gt; sed 's/&lt;[^&lt;]*&gt;//g' index.html
-  Hello World
-  Welcome to the world of regexp!
-</code></pre><p>[] 里的正则表达式意思是说 只过滤以 &lt;开头的</p>
-
-        </div>
-
-        
-
-
-        
-
-<div class="post-archive">
-    <h2>See Also</h2>
-    <ul class="listing">
-        
-        <li><a href="/posts/thttpd-and-php-5.3.3/">thttpd and php 5.3</a></li>
-        
-        <li><a href="/posts/postfix-mysql-dovecot-postfixadmin/">Postfix Mysql Dovecot Postfixadmin</a></li>
-        
-    </ul>
-</div>
-
-
-        <div class="post-meta meta-tags">
-            
-            <ul class="clearfix">
-                
-                <li><a href='/tags/sed'>sed</a></li>
-                
-                <li><a href='/tags/linux'>linux</a></li>
-                
-                <li><a href='/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86'>小知识</a></li>
-                
-            </ul>
-            
+            Postfix 是一种电子邮件服务器，它是由任职于IBM华生研究中心（T.J. Watson Research Center）的荷兰籍研究员Wietse Venema为了改良sendmail邮件服务器而产生的。最早在1990年代晚期出现，是一个开放源代码的软件。 我是安装在了ubuntu server 上安装的，因为需要web界面操作,所以需要安装 apache+php 我的环境是:
+ubuntu + apache2 + php5 + dovecot + postfix + postfixadmin 安装步骤:
+1.首先在域名服务商的 DNS解析上添加 MX 映射： IN MX 10 mail.ludy.com.
+mail IN A “IP地址”
+2.安装mysql 由于我比较懒，我就用了懒人模式,安装时候要记得root 密码 Shell $&gt; apt-get install mysql-server 创建postfix数据库，以及操作数据库user Shell $&gt; mysql -u root -p Enter password: Welcome to the MySQL monitor. Commands end with ; or \g. Your MySQL connection id is 58 Server version: 5.……
+            <p class="readmore"><a href="http://blog.nginxs.com/posts/postfix-mysql-dovecot-postfixadmin/">阅读全文</a></p>
         </div>
     </article>
     
-    
 
     
-    
+
+
+
+
+
 </div>
 
                     <footer id="footer">
@@ -149,16 +120,6 @@
 </footer>
 
 
-    
-    <script type="text/javascript">
-        window.MathJax = {
-            tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
-                }
-            };
-    </script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>

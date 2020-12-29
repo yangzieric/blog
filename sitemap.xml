@@ -4,32 +4,7 @@
   
   <url>
     <loc>http://blog.nginxs.com/</loc>
-    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.nginxs.com/tags/linux/</loc>
-    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.nginxs.com/posts/linux-force-reboot/</loc>
-    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.nginxs.com/posts/</loc>
-    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.nginxs.com/tags/</loc>
-    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/</loc>
-    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
+    <lastmod>2020-12-29T14:22:03+08:00</lastmod>
   </url>
   
   <url>
@@ -38,8 +13,23 @@
   </url>
   
   <url>
+    <loc>http://blog.nginxs.com/posts/</loc>
+    <lastmod>2020-12-29T14:22:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/tags/</loc>
+    <lastmod>2020-12-29T14:22:03+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.nginxs.com/tags/test/</loc>
     <lastmod>2020-12-29T14:22:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/tags/linux/</loc>
+    <lastmod>2014-03-07T16:15:22+08:00</lastmod>
   </url>
   
   <url>
@@ -50,6 +40,16 @@
   <url>
     <loc>http://blog.nginxs.com/tags/mkfs/</loc>
     <lastmod>2014-03-07T16:15:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/posts/linux-force-reboot/</loc>
+    <lastmod>2013-04-03T15:03:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/</loc>
+    <lastmod>2013-04-03T15:03:33+08:00</lastmod>
   </url>
   
   <url>
@@ -75,6 +75,26 @@
   <url>
     <loc>http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/</loc>
     <lastmod>2010-10-29T17:10:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/tags/postfix/</loc>
+    <lastmod>2010-03-16T17:39:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/posts/postfix-mysql-dovecot-postfixadmin/</loc>
+    <lastmod>2010-03-16T17:39:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/tags/postfixadmin/</loc>
+    <lastmod>2010-03-16T17:39:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/tags/%E9%82%AE%E7%AE%B1/</loc>
+    <lastmod>2010-03-16T17:39:03+08:00</lastmod>
   </url>
   
   <url>

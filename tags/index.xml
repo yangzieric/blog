@@ -6,25 +6,7 @@
     <description>Recent content in Tags on Eric&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 29 Dec 2020 15:03:33 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>linux</title>
-      <link>http://blog.nginxs.com/tags/linux/</link>
-      <pubDate>Tue, 29 Dec 2020 15:03:33 +0800</pubDate>
-      
-      <guid>http://blog.nginxs.com/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>小知识</title>
-      <link>http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/</link>
-      <pubDate>Tue, 29 Dec 2020 15:03:33 +0800</pubDate>
-      
-      <guid>http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Tue, 29 Dec 2020 14:22:03 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>test</title>
       <link>http://blog.nginxs.com/tags/test/</link>
@@ -35,11 +17,29 @@
     </item>
     
     <item>
+      <title>linux</title>
+      <link>http://blog.nginxs.com/tags/linux/</link>
+      <pubDate>Fri, 07 Mar 2014 16:15:22 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>mkfs</title>
       <link>http://blog.nginxs.com/tags/mkfs/</link>
       <pubDate>Fri, 07 Mar 2014 16:15:22 +0800</pubDate>
       
       <guid>http://blog.nginxs.com/tags/mkfs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>小知识</title>
+      <link>http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Wed, 03 Apr 2013 15:03:33 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/</guid>
       <description></description>
     </item>
     
@@ -67,6 +67,33 @@
       <pubDate>Fri, 29 Oct 2010 17:10:11 +0800</pubDate>
       
       <guid>http://blog.nginxs.com/tags/thttpd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>postfix</title>
+      <link>http://blog.nginxs.com/tags/postfix/</link>
+      <pubDate>Tue, 16 Mar 2010 17:39:03 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/postfix/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>postfixadmin</title>
+      <link>http://blog.nginxs.com/tags/postfixadmin/</link>
+      <pubDate>Tue, 16 Mar 2010 17:39:03 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/postfixadmin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>邮箱</title>
+      <link>http://blog.nginxs.com/tags/%E9%82%AE%E7%AE%B1/</link>
+      <pubDate>Tue, 16 Mar 2010 17:39:03 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/%E9%82%AE%E7%AE%B1/</guid>
       <description></description>
     </item>
     

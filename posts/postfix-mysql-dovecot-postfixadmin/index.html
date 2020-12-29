@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>Postfix Mysql Dovecot Postfixadmin | Eric&#39;s blog</title>
+    <meta property="og:title" content="Postfix Mysql Dovecot Postfixadmin - Eric&#39;s blog">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2010-03-16T17:39:03&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2010-03-16T17:39:03&#43;08:00'>
+        
+    <meta name="Keywords" content="linux,C&#43;&#43;,C,后台开发,操作系统,数据结构,算法,计算机网络">
+    <meta name="description" content="Postfix Mysql Dovecot Postfixadmin">
+        
+    <meta name="author" content="杨振良">
+    <meta property="og:url" content="http://blog.nginxs.com/posts/postfix-mysql-dovecot-postfixadmin/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://blog.nginxs.com/">
+                        Eric&#39;s blog
+                    </a>
+                
+                <p class="description">Stay hungry. Stay foolish.</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="http://blog.nginxs.com/">首页</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">Postfix Mysql Dovecot Postfixadmin</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2010年3月16日
+        </date>
+        
+        
+        
+        <div class="post-content">
+            <p><a href="https://blog.nginxs.com">Postfix</a> 是一种电子邮件服务器，它是由任职于IBM华生研究中心（T.J. Watson Research Center）的荷兰籍研究员Wietse Venema为了改良sendmail邮件服务器而产生的。最早在1990年代晚期出现，是一个开放源代码的软件。
+我是安装在了ubuntu server 上安装的，因为需要web界面操作,所以需要安装 apache+php
+我的环境是:</p>
+<h4 id="ubuntu--apache2--php5--dovecot--postfix--postfixadmin">ubuntu + apache2 + php5 + dovecot + postfix + postfixadmin</h4>
+<p>安装步骤:</p>
+<h3 id="1首先在域名服务商的-dns解析上添加">1.首先在域名服务商的 DNS解析上添加</h3>
+<p>MX 映射： IN MX 10 mail.ludy.com.<br>
+mail IN A “IP地址”</p>
+<h3 id="2安装mysql-由于我比较懒我就用了懒人模式安装时候要记得root-密码">2.安装mysql 由于我比较懒，我就用了懒人模式,安装时候要记得root 密码</h3>
+<pre><code>Shell $&gt; apt-get install mysql-server
+创建postfix数据库，以及操作数据库user
+
+Shell $&gt; mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor. Commands end with ; or \g.
+Your MySQL connection id is 58
+Server version: 5.0.67-0ubuntu6 (Ubuntu)
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+mysql&gt; create database postfix;
+Query OK, 1 row affected (0.00 sec)
+mysql&gt; grant all privileges on postfix.* to 'postfix'@'localhost' identified by '123456' with grant option;
+Query OK, 0 rows affected (0.00 sec)
+mysql&gt; quit
+Bye
+</code></pre><h3 id="3编译安装-postfix-支持-mysql-和-dovecot">3.编译安装 postfix 支持 mysql 和 dovecot</h3>
+<pre><code>shell $&gt; wget http://www.postfix.cn/source/official/postfix-2.6.5.tar.gz
+shell $&gt; apt-get install libmysqlclient15-dev
+shell $&gt; tar zxvf postfix-2.6.5.tar.gz
+shell $&gt; cd postfix
+shell $&gt; make tidy
+shell $&gt;make -f Makefile.init makefiles 'CCARGS=-DHAS_MYSQL -I/usr/include/mysql -DUSE_SASL_AUTH -BDEF_SERVER_SASL_TYPE=\&quot;dovecot\&quot;' 'AUXLIBS=-L/usr/lib/mysql -lmysqlclient -lz -lm'
+shell $&gt; make
+shell $&gt;make install
+
+##默认main.cf 配制文件   
+shell $&gt; postconf -n
+command_directory = /usr/sbin
+config_directory = /etc/postfix
+daemon_directory = /usr/libexec/postfix
+data_directory = /var/lib/postfix
+debug_peer_level = 2
+html_directory = no
+mail_owner = postfix
+mailq_path = /usr/bin/mailq
+manpage_directory = /usr/local/man
+newaliases_path = /usr/bin/newaliases
+queue_directory = /var/spool/postfix
+readme_directory = no
+sample_directory = /etc/postfix
+sendmail_path = /usr/sbin/sendmail
+setgid_group = postdrop
+unknown_local_recipient_reject_code = 550
+
+####配份main.cf 配置文件   
+Shell $&gt; mv main.cf main.cf.bak
+
+####创建新的 main.cfg   
+shell $&gt; vim main.cf
+command_directory = /usr/sbin
+config_directory = /etc/postfix
+daemon_directory = /usr/libexec/postfix
+data_directory = /var/lib/postfix
+debug_peer_level = 2
+html_directory = no
+mail_owner = postfix
+mailq_path = /usr/bin/mailq
+manpage_directory = /usr/local/man
+newaliases_path = /usr/bin/newaliases
+queue_directory = /var/spool/postfix
+readme_directory = no
+sample_directory = /etc/postfix
+sendmail_path = /usr/sbin/sendmail
+setgid_group = postdrop
+unknown_local_recipient_reject_code = 550
+############################################################################
+myhostname = mail.ludy.com
+mydomain = ludy.com
+myorigin = $mydomain
+mydestination =
+mynetworks = 127.0.0.0/8
+inet_interfaces = all
+home_mailbox = Maildir/
+############################################################################
+virtual_alias_maps = mysql:/etc/postfix/mysql/mysql_virtual_alias_maps.cf
+virtual_gid_maps = static:33
+virtual_mailbox_base = /var/vmail ###虚拟用户目录
+virtual_mailbox_domains = mysql:/etc/postfix/mysql/mysql_virtual_domains_maps.cf
+virtual_mailbox_maps = mysql:/etc/postfix/mysql/mysql_virtual_mailbox_maps.cf
+virtual_minimum_uid = 33 ### 给 apache 权限。
+virtual_transport = virtual
+virtual_uid_maps = static:33
+############################################################################
+message_size_limit = 52428800
+mailbox_size_limit = 209715200
+virtual_mailbox_limit = 209715200
+virtual_create_maildirsize = yes
+virtual_mailbox_extended = yes
+virtual_mailbox_limit_maps = mysql:/etc/postfix/mysql/mysql_virtual_mailbox_limit_maps.cf
+virtual_mailbox_limit_override = yes
+virtual_overquota_bounce = yes
+############################################################################
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot ###定义安装方式 dovecot
+smtpd_sasl_path = private/auth-client ##### 路径要与 dovecot 一样，一会要讲到
+broken_sasl_auth_clients = yes
+smtpd_recipient_restrictions = permit_mynetworks,
+permit_sasl_authenticated,
+reject_invalid_hostname,
+reject_non_fqdn_hostname,
+reject_unknown_sender_domain,
+reject_non_fqdn_sender,
+reject_non_fqdn_recipient,
+reject_unknown_recipient_domain,
+reject_unauth_pipelining,
+reject_unauth_destination
+
+###创建 mysql 通信文件   
+shell$&gt; cd /etc/postfix
+shell $&gt; mkdir mysql
+shell $&gt; cd mysql
+shell $&gt; vim mysql_virtual_alias_maps.cf
+user = portfix
+password = 123456
+hosts = localhost
+dbname = postfix
+table = alias
+select_field = goto
+where_field = address
+
+shell $&gt; vim mysql_virtual_domains_maps.cf
+user = portfix
+password = 123456
+hosts = localhost
+dbname = postfix
+table = domain
+select_field = domain
+where_field = domain
+
+shell $&gt; vim mysql_virtual_mailbox_maps.cf
+user = portfix
+password = 123456
+hosts = localhost
+dbname = postfix
+table = mailbox
+select_field = maildir
+where_field = username
+
+shell $&gt; vim mysql_virtual_mailbox_limit_maps.cf
+user = portfix
+password = 123456
+hosts = localhost
+dbname = postfix
+table = mailbox
+select_field = quota
+where_field = username
+</code></pre><h3 id="4安装配置-dovecot-pop3d">4.安装配置 dovecot-pop3d</h3>
+<pre><code>shell $&gt; apt-get install dovecot-pop3d
+shell $&gt; cd /etc/dovecot
+shell $&gt; mv dovecot.conf dovecot.conf.bak ##备份原有dovecot配置文件
+shell $&gt; vim dovecot.conf ## 创建新的 dovecot 配置文件
+base_dir = /var/run/dovecot/
+protocols = pop3 pop3s
+listen = *
+disable_plaintext_auth = no
+log_path = /var/log/dovecot.log
+info_log_path = /var/log/dovecot.info
+log_timestamp = &quot;%Y-%m-%d %H:%M:%S &quot;
+ssl_disable = yes
+mail_location = maildir:/var/vmail/%u
+mail_privileged_group = mail
+first_valid_uid = 33
+protocol imap {
+}
+protocol pop3 {
+    pop3_uidl_format = %08Xu%08Xv
+}
+auth default {
+    mechanisms = plain login
+    passdb pam {
+    }
+    passdb sql {
+        args = /etc/dovecot/dovecot-sql.conf
+    }
+    userdb passwd {
+    }
+    userdb sql {
+        args = /etc/dovecot/dovecot-sql.conf
+    }
+
+    user = root
+    socket listen {
+        client {
+            path = /var/spool/postfix/private/auth-client ###这里对应postfix smtpd_sasl_path
+            mode = 0660
+            user = postfix
+            group = postfix
+        }
+    }
+}
+
+######备份 dovecot 连接数据库配置文件      
+shell $&gt; mv dovecot-sql.conf dovecot-sql.conf.bak
+shell $&gt; vim dovecot-sql.conf
+driver = mysql
+connect = host=localhost dbname=postfix user=postfix password=123456
+default_pass_scheme = MD5-CRYPT
+### 这里修改为 MD5-CRYPT 是为了与 postfixadmin 想符合，不然验证不过去总提示密码错误！    
+
+password_query = SELECT password FROM mailbox WHERE username = '%u'
+user_query = SELECT maildir, 33 AS uid, 33 AS gid FROM mailbox WHERE username = '%u'
+####重新启动 dovecot 服务`   
+
+shell $&gt; /etc/init.d/dovecot restart
+</code></pre><h3 id="5-建立-postfix-虚拟用户目录">5. 建立 postfix 虚拟用户目录</h3>
+<pre><code>shell $&gt; mkdir -p /var/vmail
+## 赋给 apache 权限~~~
+
+shell $&gt; chown www-data:www-data /var/vmail -R
+</code></pre><h3 id="6安装配置-postfixadmin">6.安装配置 postfixadmin</h3>
+<pre><code>shell $&gt; wget 'http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin_2.3.tar.gz?use_mirror=cdnetworks-kr-2'
+shell $&gt; tar zxvf  postfixadmin_2.3.tar.gz
+shell $&gt; mv postfixadmin-2.3 /var/www/postfixadmin
+shell $&gt; cd /var/www/postfixadmin
+shell $&gt; vim config.inc.php
+#### 查找 $CONF['configured'] = false; ###
+改为
+$CONF['configured'] = true;
+###查找  $CONF['default_language'] = 'en'; ##
+改为：
+$CONF['default_language'] = 'cn';
+####查找
+$CONF['database_type'] = 'mysql';
+$CONF['database_host'] = 'localhost';
+$CONF['database_user'] = 'postfix';
+$CONF['database_password'] = 'postfixadmin';
+$CONF['database_name'] = 'postfix';
+$CONF['database_prefix'] = '';
+改为：
+$CONF['database_type'] = 'mysql';
+$CONF['database_host'] = 'localhost';
+$CONF['database_user'] = 'postfix';
+$CONF['database_password'] = '123456';
+$CONF['database_name'] = 'postfix';
+$CONF['database_prefix'] = '';
+</code></pre>
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/postfix'>postfix</a></li>
+                
+                <li><a href='/tags/postfixadmin'>postfixadmin</a></li>
+                
+                <li><a href='/tags/%E9%82%AE%E7%AE%B1'>邮箱</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2020 <a href="http://blog.nginxs.com/">Eric&#39;s blog By 杨振良</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="http://blog.nginxs.com/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">Eric</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://blog.nginxs.com/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/my-first-post/" title="My First Post">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/linux-format-error/" title="Linux分区错误">Linux分区错误</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/linux-force-reboot/" title="Linux Force Reboot">Linux Force Reboot</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/sed-del-html/" title="Sed过滤html标签">Sed过滤html标签</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/" title="thttpd and php 5.3">thttpd and php 5.3</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/postfix-mysql-dovecot-postfixadmin/" title="Postfix Mysql Dovecot Postfixadmin">Postfix Mysql Dovecot Postfixadmin</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="http://blog.nginxs.com/tags/linux/">linux</a>
+    
+    <a href="http://blog.nginxs.com/tags/mkfs/">mkfs</a>
+    
+    <a href="http://blog.nginxs.com/tags/php/">php</a>
+    
+    <a href="http://blog.nginxs.com/tags/postfix/">postfix</a>
+    
+    <a href="http://blog.nginxs.com/tags/postfixadmin/">postfixadmin</a>
+    
+    <a href="http://blog.nginxs.com/tags/sed/">sed</a>
+    
+    <a href="http://blog.nginxs.com/tags/test/">test</a>
+    
+    <a href="http://blog.nginxs.com/tags/thttpd/">thttpd</a>
+    
+    <a href="http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/">小知识</a>
+    
+    <a href="http://blog.nginxs.com/tags/%E9%82%AE%E7%AE%B1/">邮箱</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://blog.nginxs.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
