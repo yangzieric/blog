@@ -3,36 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://yangzieric.github.io/posts/my-first-post/</loc>
+    <loc>http://blog.nginxs.com/posts/my-first-post/</loc>
     <lastmod>2020-12-29T11:29:37+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://yangzieric.github.io/</loc>
+    <loc>http://blog.nginxs.com/</loc>
     <lastmod>2020-12-29T11:29:37+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://yangzieric.github.io/posts/</loc>
+    <loc>http://blog.nginxs.com/posts/</loc>
     <lastmod>2020-12-29T11:29:37+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://yangzieric.github.io/tags/</loc>
+    <loc>http://blog.nginxs.com/tags/</loc>
     <lastmod>2020-12-29T11:29:37+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://yangzieric.github.io/tags/test/</loc>
+    <loc>http://blog.nginxs.com/tags/test/</loc>
     <lastmod>2020-12-29T11:29:37+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://yangzieric.github.io/categories/</loc>
+    <loc>http://blog.nginxs.com/categories/</loc>
   </url>
   
   <url>
-    <loc>https://yangzieric.github.io/series/</loc>
+    <loc>http://blog.nginxs.com/series/</loc>
   </url>
   
 </urlset>
