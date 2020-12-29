@@ -63,6 +63,21 @@
   </url>
   
   <url>
+    <loc>http://blog.nginxs.com/tags/php/</loc>
+    <lastmod>2010-10-29T17:10:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/tags/thttpd/</loc>
+    <lastmod>2010-10-29T17:10:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/</loc>
+    <lastmod>2010-10-29T17:10:11+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.nginxs.com/categories/</loc>
   </url>
   

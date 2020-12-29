@@ -7,20 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>Linux Force Reboot | Eric&#39;s blog</title>
-    <meta property="og:title" content="Linux Force Reboot - Eric&#39;s blog">
+    <title>thttpd and php 5.3 | Eric&#39;s blog</title>
+    <meta property="og:title" content="thttpd and php 5.3 - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content='2020-12-29T15:03:33&#43;08:00'>
+    <meta property="article:published_time" content='2010-10-29T17:10:11&#43;08:00'>
         
         
-    <meta property="article:modified_time" content='2020-12-29T15:03:33&#43;08:00'>
+    <meta property="article:modified_time" content='2010-10-29T17:10:11&#43;08:00'>
         
     <meta name="Keywords" content="linux,C&#43;&#43;,C,后台开发,操作系统,数据结构,算法,计算机网络">
-    <meta name="description" content="Linux Force Reboot">
+    <meta name="description" content="thttpd and php 5.3">
         
     <meta name="author" content="杨振良">
-    <meta property="og:url" content="http://blog.nginxs.com/posts/linux-force-reboot/">
+    <meta property="og:url" content="http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
@@ -68,37 +68,117 @@
     
     <article class="post">
         <header>
-            <h1 class="post-title">Linux Force Reboot</h1>
+            <h1 class="post-title">thttpd and php 5.3</h1>
         </header>
         <date class="post-meta meta-date">
-            2020年12月29日
+            2010年10月29日
         </date>
         
         
         
         <div class="post-content">
-            <p>    今天IDC有服务器有两个分区变为只读分区，首先处理我想想卸载分区实行修复在挂载，无法卸载，然后考虑到线上服务器有备机，所以索性就直接重启下，执行 reboot 结果没响应，init 6 同样没响应。然后拿起电话准备给IDC 打电话重，后来想下肯定有办法重启的，就 google 了一下，果然找到了办法。执行下面两条命令：</p>
-<pre><code># echo 1 &gt; /proc/sys/kernel/sysrq
-# echo b &gt; /proc/sysrq-trigger
-</code></pre><hr>
-<ul>
-<li>/proc/sys/kernel/sysrq<br>
-    向sysrq文件中写入1是为了开启SysRq功能.根据linux/Documentations/sysrq.txt中所说：SysRq代表的是Magic System Request Key。开启了这个功能以后，只要内核没有挂掉，它就会响应你要求的任何操作。但是这需要内核支持(CONFIG_MAGIC_SYSRQ选项)。向/proc/sys/kernel/sysrq中写入0是关闭sysrq功能，写入1是开启，其他选项请参考sysrq.txt。需要注意的是，/proc/sys/kernel/sysrq中的值只影响键盘的操作。<br>
-    那么怎么使用SysRq键呢?<br>
-    在x86平台上，组合键” + SysRq + “组成SysRq键以完成各种功能。但是，在一些键盘上可能没有SysRq键。SysRq键实际上就是”Print Screen“键。并且可能有些键盘不支持同时按三个按键，所以你可以”按住ALT键“，”按一下SysRq键“，再”按一下键“，如果你运气好的话，这个会有效果的。不过放心，现在的键盘一般都支持同时按3个或3个以上的键。<br>
-    有很多，这里只挑几个来说，其他的可以参考sysrq.txt文件。</li>
-</ul>
-<pre><code>• ’b’ —— 将会立即重启系统，并且不会管你有没有数据没有写回磁盘，也不卸载磁盘，而是完完全全的立即关机
-• ’o’ —— 将会关机
-• ’s’ —— 将会同步所有以挂在的文件系统
-• ’u’ —— 将会重新将所有的文件系统挂在为只读属性
-</code></pre><ul>
-<li>/proc/sysrq-trigger<br>
-从文件名字就可以看出来这两个是有关系的。<br>
-写入/proc/sysrq-trigger中的字符其实就是sysrq.txt中说的键所对应的字符，其功能也和上述一样。
-所以，这两行命令先开启SysRq功能，然后用’b&rsquo;命令让计算机立刻重启。</li>
-</ul>
-<h3 id="注意-你可以在执行玩--rm--rf--后执行-强制重启命令因为reboot-和-poweroff-已经都不能用了">注意: 你可以在执行玩  rm -rf / 后执行 强制重启命令，因为reboot 和 poweroff 已经都不能用了</h3>
+            <p>由于2.25b+php-5.2.11版本，昨天测试上传有问题·试这改了很多源码，只支持了火狐浏览器上传小文件，而IE浏览器则直接返回该页无法显示，今天下下来 php5.3.3最新版的PHP，看了下<a href="https://blog.nginxs.com">thttpd</a> 的源码，只支持thttpd 2.21b.然后就试着安装了下·现在可以了上传了支持 POST上传了！</p>
+<p>下载源码包：</p>
+<pre><code>thttpd $&gt; wget http://cn2.php.net/get/php-5.3.3.tar.bz2/from/cn.php.net/mirror
+thttpd $&gt; wget http://www.acme.com/software/thttpd/thttpd-2.21b.tar.gz
+</code></pre><h3 id="1安装thttpd-php补丁">1.安装thttpd php补丁</h3>
+<pre><code>thttpd $&gt; tar jxvf php-5.3.3.tar.bz2
+thttpd $&gt; tar zxvf thttpd-2.21b.tar.gz
+thttpd $&gt; cd php-5.3.3
+thttpd $&gt; ./configure --prefix=/usr/local/php --with-thttpd=../thttpd-2.21b
+thttpd $&gt; make install
+</code></pre><h3 id="2安装-thttpd">2.安装 thttpd</h3>
+<pre><code>thttpd $&gt; cd thttpd-2.21b
+thttpd $&gt; ./configure --prefix=/usr/local/thttpd
+thttpd $&gt; sed -i 's#getline#get_line#g' extras/htpasswd.c
+#不然会报错，上篇文章已经说原因了
+thttpd $&gt; make
+thttpd $&gt; mkdir -p /usr/local/thttpd
+thttpd $&gt; mkdir -p /usr/local/thttpd/{man,sbin,www,etc,logs}
+thttpd $&gt; mkdir -p /usr/local/thttpd/man/{man1,man8}
+thttpd $&gt; mkdir -p /usr/local/thttpd/www/cgi-bin
+# thttpd-2.21b 版本的安装脚本写的更软弱·所有要手动创建这些目录
+thttpd $&gt; make install
+</code></pre><h3 id="3-创建配置文件">3. 创建配置文件</h3>
+<pre><code>thttpd $&gt; cd /usr/local/thttpd/etc
+thttpd $&gt; vim thttpd.conf
+port=80
+user=www
+nochroot
+host=0.0.0.0
+#vhost
+logfile=/usr/local/thttpd/logs/thttpd.log
+pidfile=/usr/local/thttpd/logs/thttpd.pid
+throttles=/usr/local/thttpd/etc/throttle.conf
+urlpat=*.txt|*.mp3
+charset=utf-8
+dir=/var/www
+cgipat=/usr/local/thttpd/www/cgi-bin/*
+</code></pre><p>#还是老配置··呵呵不解释</p>
+<pre><code>thttpd $&gt; vim throttle.conf
+*.jpg|*.gif     50000
+*.mpg           20000
+dir/*           20000
+# 限速配置
+</code></pre><h3 id="4创建启动脚本">4.创建启动脚本</h3>
+<pre><code>thttpd $&gt; vim /etc/init.d/thttpd
+#!/bin/bash
+COMMAND=/usr/local/thttpd/sbin/thttpd
+CONFIG=/usr/local/thttpd/etc/thttpd.conf
+PID=`cat /usr/local/thttpd/logs/thttpd.pid`
+function_start_thttpd()
+{
+        printf &quot;Starting THTTPD....\n&quot;
+        $COMMAND -C $CONFIG 2&gt;&amp;1 &gt;/dev/null&amp;
+}
+function_stop_thttpd()
+{
+        printf &quot;Stoping THTTPD....\n&quot;
+        kill $PID
+}
+
+if [ &quot;$1&quot; = &quot;start&quot; ]; then
+        function_start_thttpd
+elif [ &quot;$1&quot; = &quot;stop&quot; ];then
+        function_stop_thttpd
+else
+        printf &quot;Usage: /etc/init.d/thttpd {start|stop}&quot;
+fi
+</code></pre><h3 id="5-创建-上传php-文件测试上传">5. 创建 上传PHP 文件测试上传</h3>
+<pre><code>thttpd $&gt; cd /var/www
+thttpd $&gt; vim index.html
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;form action=&quot;/upload_file.php&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+&lt;label for=&quot;file&quot;&gt;Filename:&lt;/label&gt;
+&lt;input type=&quot;file&quot; name=&quot;file&quot; id=&quot;file&quot; /&gt;
+&lt;br /&gt;
+&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Submit&quot; /&gt;
+&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>#上传表单</p>
+<pre><code>thttpd $&gt; vim upload_file.php
+&lt; ?php
+if ($_FILES[&quot;file&quot;][&quot;error&quot;] &gt; 0)
+  {
+  echo &quot;Error: &quot; . $_FILES[&quot;file&quot;][&quot;error&quot;] . &quot;&quot;;
+  }
+else
+  {
+  echo &quot;Upload: &quot; . $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot;&quot;;
+  echo &quot;Type: &quot; . $_FILES[&quot;file&quot;][&quot;type&quot;] . &quot;&quot;;
+  echo &quot;Size: &quot; . ($_FILES[&quot;file&quot;][&quot;size&quot;] / 1024) . &quot; Kb&quot;;
+  echo &quot;Stored in: &quot; . $_FILES[&quot;file&quot;][&quot;tmp_name&quot;];
+  }
+?&gt;
+</code></pre><p>##上传文件信息~
+
+        <img class="mx-auto" alt="avater" src="/images/123.jpg" />   
+    </p>
+<p>thttpd 就先搞这么一个段落，以后把他应用到服务器中做下载用~这样可以节省带宽·前端服务器当然还是 nginx+php-fpm</p>
 
         </div>
 
@@ -107,29 +187,14 @@
 
         
 
-<div class="post-archive">
-    <h2>See Also</h2>
-    <ul class="listing">
-        
-        <li><a href="/posts/sed-del-html/">Sed过滤html标签</a></li>
-        
-        <li><a href="/posts/linux-format-error/">Linux分区错误</a></li>
-        
-        <li><a href="/posts/my-first-post/">My First Post</a></li>
-        
-        <li><a href="/posts/thttpd-and-php-5.3.3/">thttpd and php 5.3</a></li>
-        
-    </ul>
-</div>
-
 
         <div class="post-meta meta-tags">
             
             <ul class="clearfix">
                 
-                <li><a href='/tags/linux'>linux</a></li>
+                <li><a href='/tags/php'>php</a></li>
                 
-                <li><a href='/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86'>小知识</a></li>
+                <li><a href='/tags/thttpd'>thttpd</a></li>
                 
             </ul>
             

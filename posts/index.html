@@ -151,6 +151,26 @@ kpartx -a /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450 ls /
     
     
     
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/" title="thttpd and php 5.3">thttpd and php 5.3</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2010年10月29日
+        </date>
+        
+        <div class="post-content">
+            由于2.25b+php-5.2.11版本，昨天测试上传有问题·试这改了很多源码，只支持了火狐浏览器上传小文件，而IE浏览器则直接返回该页无法显示，今天下下来 php5.3.3最新版的PHP，看了下thttpd 的源码，只支持thttpd 2.21b.然后就试着安装了下·现在可以了上传了支持 POST上传了！
+下载源码包：
+thttpd $&gt; wget http://cn2.php.net/get/php-5.3.3.tar.bz2/from/cn.php.net/mirror thttpd $&gt; wget http://www.acme.com/software/thttpd/thttpd-2.21b.tar.gz 1.安装thttpd php补丁 thttpd $&gt; tar jxvf php-5.3.3.tar.bz2 thttpd $&gt; tar zxvf thttpd-2.21b.tar.gz thttpd $&gt; cd php-5.3.3 thttpd $&gt; ./configure --prefix=/usr/local/php --with-thttpd=../thttpd-2.21b thttpd $&gt; make install 2.安装 thttpd thttpd $&gt; cd thttpd-2.21b thttpd $&gt; ./configure --prefix=/usr/local/thttpd thttpd $&gt; sed -i 's#getline#get_line#g' extras/htpasswd.c #不然会报错，上篇文章已经说原因了 thttpd $&gt; make thttpd $&gt; mkdir -p /usr/local/thttpd thttpd $&gt; mkdir -p /usr/local/thttpd/{man,sbin,www,etc,logs} thttpd $&gt; mkdir -p /usr/local/thttpd/man/{man1,man8} thttpd $&gt; mkdir -p /usr/local/thttpd/www/cgi-bin # thttpd-2.……
+        </div>
+        <p class="readmore"><a href="http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/">阅读全文</a></p>
+    </article>
+    
+    
+    
 
 
 
@@ -220,6 +240,10 @@ kpartx -a /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450 ls /
         <a href="http://blog.nginxs.com/posts/sed-del-html/" title="Sed过滤html标签">Sed过滤html标签</a>
     </li>
     
+    <li>
+        <a href="http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/" title="thttpd and php 5.3">thttpd and php 5.3</a>
+    </li>
+    
 </ul>
     </section>
 
@@ -240,9 +264,13 @@ kpartx -a /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450 ls /
     
     <a href="http://blog.nginxs.com/tags/mkfs/">mkfs</a>
     
+    <a href="http://blog.nginxs.com/tags/php/">php</a>
+    
     <a href="http://blog.nginxs.com/tags/sed/">sed</a>
     
     <a href="http://blog.nginxs.com/tags/test/">test</a>
+    
+    <a href="http://blog.nginxs.com/tags/thttpd/">thttpd</a>
     
     <a href="http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/">小知识</a>
     

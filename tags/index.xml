@@ -52,5 +52,23 @@
       <description></description>
     </item>
     
+    <item>
+      <title>php</title>
+      <link>http://blog.nginxs.com/tags/php/</link>
+      <pubDate>Fri, 29 Oct 2010 17:10:11 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/php/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>thttpd</title>
+      <link>http://blog.nginxs.com/tags/thttpd/</link>
+      <pubDate>Fri, 29 Oct 2010 17:10:11 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/thttpd/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

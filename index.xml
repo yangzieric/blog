@@ -58,5 +58,16 @@ kpartx -a /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450 ls /
  [localhost nginx] $&amp;gt; sed &#39;s/&amp;lt;[^&amp;lt;]*&amp;gt;//g&#39; index.html Hello World Welcome to the world of regexp! [] 里的正则表达式意思是说 只过滤以 &amp;lt;开头的</description>
     </item>
     
+    <item>
+      <title>thttpd and php 5.3</title>
+      <link>http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/</link>
+      <pubDate>Fri, 29 Oct 2010 17:10:11 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/</guid>
+      <description>由于2.25b+php-5.2.11版本，昨天测试上传有问题·试这改了很多源码，只支持了火狐浏览器上传小文件，而IE浏览器则直接返回该页无法显示，今天下下来 php5.3.3最新版的PHP，看了下thttpd 的源码，只支持thttpd 2.21b.然后就试着安装了下·现在可以了上传了支持 POST上传了！
+下载源码包：
+thttpd $&amp;gt; wget http://cn2.php.net/get/php-5.3.3.tar.bz2/from/cn.php.net/mirror thttpd $&amp;gt; wget http://www.acme.com/software/thttpd/thttpd-2.21b.tar.gz 1.安装thttpd php补丁 thttpd $&amp;gt; tar jxvf php-5.3.3.tar.bz2 thttpd $&amp;gt; tar zxvf thttpd-2.21b.tar.gz thttpd $&amp;gt; cd php-5.3.3 thttpd $&amp;gt; ./configure --prefix=/usr/local/php --with-thttpd=../thttpd-2.21b thttpd $&amp;gt; make install 2.安装 thttpd thttpd $&amp;gt; cd thttpd-2.21b thttpd $&amp;gt; ./configure --prefix=/usr/local/thttpd thttpd $&amp;gt; sed -i &#39;s#getline#get_line#g&#39; extras/htpasswd.c #不然会报错，上篇文章已经说原因了 thttpd $&amp;gt; make thttpd $&amp;gt; mkdir -p /usr/local/thttpd thttpd $&amp;gt; mkdir -p /usr/local/thttpd/{man,sbin,www,etc,logs} thttpd $&amp;gt; mkdir -p /usr/local/thttpd/man/{man1,man8} thttpd $&amp;gt; mkdir -p /usr/local/thttpd/www/cgi-bin # thttpd-2.</description>
+    </item>
+    
   </channel>
 </rss>
