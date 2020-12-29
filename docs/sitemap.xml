@@ -18,15 +18,21 @@
   </url>
   
   <url>
+    <loc>https://yangzieric.github.io/blog/tags/</loc>
+    <lastmod>2020-12-29T11:29:37+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yangzieric.github.io/blog/tags/test/</loc>
+    <lastmod>2020-12-29T11:29:37+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yangzieric.github.io/blog/categories/</loc>
   </url>
   
   <url>
     <loc>https://yangzieric.github.io/blog/series/</loc>
-  </url>
-  
-  <url>
-    <loc>https://yangzieric.github.io/blog/tags/</loc>
   </url>
   
 </urlset>
