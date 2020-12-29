@@ -6,4 +6,4 @@ draft: false
 ```
 [localhost]# echo "hello world"
 ```
-tags: ["test","linux"]
+tags: ["test"]
