@@ -1,4 +1,4 @@
-baseURL = "https://yangzieric.github.io/"
+baseURL = "http://blog.nginxs.com/"
 languageCode = "en-us"
 title = "My New Hugo Site"
 theme = "maupassant"
