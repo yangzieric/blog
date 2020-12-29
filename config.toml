@@ -1,8 +1,0 @@
-baseURL = "http://blog.nginxs.com/"
-languageCode = "en-us"
-title = "My New Hugo Site"
-theme = "maupassant"
-[taxonomies]
-  tag = "tags"
-  series = "series"
-  category = "categories"
