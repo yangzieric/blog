@@ -5,11 +5,12 @@
     <link>http://blog.nginxs.com/tags/mkfs/</link>
     <description>Recent content in mkfs on Eric&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="http://blog.nginxs.com/tags/mkfs/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Fri, 07 Mar 2014 16:15:22 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/tags/mkfs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Linux分区错误</title>
       <link>http://blog.nginxs.com/posts/linux-format-error/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 07 Mar 2014 16:15:22 +0800</pubDate>
       
       <guid>http://blog.nginxs.com/posts/linux-format-error/</guid>
       <description>今天客服出去实施，发现客户的机器安装的RAID 卡属于软RAID，磁盘在Centos 5.9 系统里认出来的是很长的字符串。按照业务需求分区后发现剩下的分区分给 data 目录，在安装界面无法 分区下去，一直停留在格式化 data 数据盘分区。给我通电话后，我果断先让他把系统分区完，数据盘分区先部分，等进入系统后我远程来看问题。再他不分数据盘后系统正常安装完了跟我远程我发现的问题。
