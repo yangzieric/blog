@@ -3,12 +3,12 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://blog.nginxs.com/posts/my-first-post/</loc>
+    <loc>http://blog.nginxs.com/</loc>
     <lastmod>2020-12-29T14:22:03+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.nginxs.com/</loc>
+    <loc>http://blog.nginxs.com/posts/my-first-post/</loc>
     <lastmod>2020-12-29T14:22:03+08:00</lastmod>
   </url>
   
