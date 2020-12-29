@@ -4,21 +4,36 @@
   
   <url>
     <loc>http://blog.nginxs.com/</loc>
-    <lastmod>2020-12-29T14:22:03+08:00</lastmod>
+    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.nginxs.com/posts/my-first-post/</loc>
-    <lastmod>2020-12-29T14:22:03+08:00</lastmod>
+    <loc>http://blog.nginxs.com/tags/linux/</loc>
+    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/posts/linux-force-reboot/</loc>
+    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
   </url>
   
   <url>
     <loc>http://blog.nginxs.com/posts/</loc>
-    <lastmod>2020-12-29T14:22:03+08:00</lastmod>
+    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
   </url>
   
   <url>
     <loc>http://blog.nginxs.com/tags/</loc>
+    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/</loc>
+    <lastmod>2020-12-29T15:03:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/posts/my-first-post/</loc>
     <lastmod>2020-12-29T14:22:03+08:00</lastmod>
   </url>
   

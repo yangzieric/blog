@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Eric&#39;s blog</title>
-    <link>http://blog.nginxs.com/</link>
-    <description>Recent content on Eric&#39;s blog</description>
+    <title>小知识 on Eric&#39;s blog</title>
+    <link>http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/</link>
+    <description>Recent content in 小知识 on Eric&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 29 Dec 2020 15:03:33 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 29 Dec 2020 15:03:33 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Linux Force Reboot</title>
       <link>http://blog.nginxs.com/posts/linux-force-reboot/</link>
@@ -19,15 +19,6 @@
 有很多，这里只挑几个来说，其他的可以参考sysrq.txt文件。
 • ’b’ —— 将会立即重启系统，并且不会管你有没有数据没有写回磁盘，也不卸载磁盘，而是完完全全的立即关机 • ’o’ —— 将会关机 • ’s’ —— 将会同步所有以挂在的文件系统 • ’u’ —— 将会重新将所有的文件系统挂在为只读属性 /proc/sysrq-trigger 从文件名字就可以看出来这两个是有关系的。写入/proc/sysrq-trigger中的字符其实就是sysrq.txt中说的键所对应的字符，其功能也和上述一样。  所以，这两行命令先开启SysRq功能，然后用’b&amp;rsquo;命令让计算机立刻重启。
 注意: 你可以在执行玩 rm -rf / 后执行 强制重启命令，因为reboot 和 poweroff 已经都不能用了</description>
-    </item>
-    
-    <item>
-      <title>My First Post</title>
-      <link>http://blog.nginxs.com/posts/my-first-post/</link>
-      <pubDate>Tue, 29 Dec 2020 14:22:03 +0800</pubDate>
-      
-      <guid>http://blog.nginxs.com/posts/my-first-post/</guid>
-      <description> [localhost] # echo &amp;quot;hello world&amp;quot; </description>
     </item>
     
   </channel>
