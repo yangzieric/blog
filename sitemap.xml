@@ -43,7 +43,25 @@
   </url>
   
   <url>
+    <loc>http://blog.nginxs.com/tags/sed/</loc>
+    <lastmod>2010-11-19T15:58:42+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/posts/sed-del-html/</loc>
+    <lastmod>2010-11-19T15:58:42+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.nginxs.com/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/posts/linux-format-error/</loc>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/tags/mkfs/</loc>
   </url>
   
 </urlset>

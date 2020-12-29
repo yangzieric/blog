@@ -34,5 +34,23 @@
       <description></description>
     </item>
     
+    <item>
+      <title>sed</title>
+      <link>http://blog.nginxs.com/tags/sed/</link>
+      <pubDate>Fri, 19 Nov 2010 15:58:42 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/sed/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mkfs</title>
+      <link>http://blog.nginxs.com/tags/mkfs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/mkfs/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

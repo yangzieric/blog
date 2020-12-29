@@ -94,6 +94,25 @@
         </div>
     </article>
     
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="http://blog.nginxs.com/posts/sed-del-html/">Sed过滤html标签</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2010年11月19日
+        </date>
+        
+        <div class="post-content">
+            今天看到这么一道题目·如果过滤html标签 html标签是这样的：
+ &lt;html&gt;&lt;head&gt;&lt;title&gt;Hello World&lt;/title&gt;&lt;/head&gt; &lt;body&gt;Welcome to the world of regexp!&lt;/body&gt;&lt;/html&gt; 当时没犹豫就输入
+ [localhost nginx] $&gt; sed 's/&lt;.*&gt;//g' index.html 在nginx服务器上 结果显示空白两行·自己笨没办法·查了下google 原来是这样的
+ [localhost nginx] $&gt; sed 's/&lt;[^&lt;]*&gt;//g' index.html Hello World Welcome to the world of regexp! [] 里的正则表达式意思是说 只过滤以 &lt;开头的……
+            <p class="readmore"><a href="http://blog.nginxs.com/posts/sed-del-html/">阅读全文</a></p>
+        </div>
+    </article>
+    
 
     
 
@@ -157,6 +176,14 @@
         <a href="http://blog.nginxs.com/posts/my-first-post/" title="My First Post">My First Post</a>
     </li>
     
+    <li>
+        <a href="http://blog.nginxs.com/posts/sed-del-html/" title="Sed过滤html标签">Sed过滤html标签</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/linux-format-error/" title="Linux分区错误">Linux分区错误</a>
+    </li>
+    
 </ul>
     </section>
 
@@ -174,6 +201,10 @@
 <div class="tagcloud">
     
     <a href="http://blog.nginxs.com/tags/linux/">linux</a>
+    
+    <a href="http://blog.nginxs.com/tags/mkfs/">mkfs</a>
+    
+    <a href="http://blog.nginxs.com/tags/sed/">sed</a>
     
     <a href="http://blog.nginxs.com/tags/test/">test</a>
     

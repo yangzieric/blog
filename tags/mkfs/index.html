@@ -7,24 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>Linux Force Reboot | Eric&#39;s blog</title>
-    <meta property="og:title" content="Linux Force Reboot - Eric&#39;s blog">
+    <title>mkfs | Eric&#39;s blog</title>
+    <meta property="og:title" content="mkfs - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content='2020-12-29T15:03:33&#43;08:00'>
-        
-        
-    <meta property="article:modified_time" content='2020-12-29T15:03:33&#43;08:00'>
         
     <meta name="Keywords" content="linux,C&#43;&#43;,C,后台开发,操作系统,数据结构,算法,计算机网络">
-    <meta name="description" content="Linux Force Reboot">
+    <meta name="description" content="mkfs">
         
     <meta name="author" content="杨振良">
-    <meta property="og:url" content="http://blog.nginxs.com/posts/linux-force-reboot/">
+    <meta property="og:url" content="http://blog.nginxs.com/tags/mkfs/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.nginxs.com/tags/mkfs/index.xml" title="Eric's blog" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -66,78 +63,42 @@
                     
 <div class="res-cons">
     
+    <h3 class="archive-title">
+        包含标签
+        <span class="keyword">mkfs</span>
+        的文章
+    </h3>
+    
+
+    
     <article class="post">
         <header>
-            <h1 class="post-title">Linux Force Reboot</h1>
+            <h1 class="post-title">
+                <a href="http://blog.nginxs.com/posts/linux-format-error/">Linux分区错误</a>
+            </h1>
         </header>
         <date class="post-meta meta-date">
-            2020年12月29日
+            1年1月1日
         </date>
         
-        
-        
         <div class="post-content">
-            <p>    今天IDC有服务器有两个分区变为只读分区，首先处理我想想卸载分区实行修复在挂载，无法卸载，然后考虑到线上服务器有备机，所以索性就直接重启下，执行 reboot 结果没响应，init 6 同样没响应。然后拿起电话准备给IDC 打电话重，后来想下肯定有办法重启的，就 google 了一下，果然找到了办法。执行下面两条命令：</p>
-<pre><code># echo 1 &gt; /proc/sys/kernel/sysrq
-# echo b &gt; /proc/sysrq-trigger
-</code></pre><hr>
-<ul>
-<li>/proc/sys/kernel/sysrq<br>
-    向sysrq文件中写入1是为了开启SysRq功能.根据linux/Documentations/sysrq.txt中所说：SysRq代表的是Magic System Request Key。开启了这个功能以后，只要内核没有挂掉，它就会响应你要求的任何操作。但是这需要内核支持(CONFIG_MAGIC_SYSRQ选项)。向/proc/sys/kernel/sysrq中写入0是关闭sysrq功能，写入1是开启，其他选项请参考sysrq.txt。需要注意的是，/proc/sys/kernel/sysrq中的值只影响键盘的操作。<br>
-    那么怎么使用SysRq键呢?<br>
-    在x86平台上，组合键” + SysRq + “组成SysRq键以完成各种功能。但是，在一些键盘上可能没有SysRq键。SysRq键实际上就是”Print Screen“键。并且可能有些键盘不支持同时按三个按键，所以你可以”按住ALT键“，”按一下SysRq键“，再”按一下键“，如果你运气好的话，这个会有效果的。不过放心，现在的键盘一般都支持同时按3个或3个以上的键。<br>
-    有很多，这里只挑几个来说，其他的可以参考sysrq.txt文件。</li>
-</ul>
-<pre><code>• ’b’ —— 将会立即重启系统，并且不会管你有没有数据没有写回磁盘，也不卸载磁盘，而是完完全全的立即关机
-• ’o’ —— 将会关机
-• ’s’ —— 将会同步所有以挂在的文件系统
-• ’u’ —— 将会重新将所有的文件系统挂在为只读属性
-</code></pre><ul>
-<li>/proc/sysrq-trigger<br>
-从文件名字就可以看出来这两个是有关系的。<br>
-写入/proc/sysrq-trigger中的字符其实就是sysrq.txt中说的键所对应的字符，其功能也和上述一样。
-所以，这两行命令先开启SysRq功能，然后用’b&rsquo;命令让计算机立刻重启。</li>
-</ul>
-<h3 id="注意-你可以在执行玩--rm--rf--后执行-强制重启命令因为reboot-和-poweroff-已经都不能用了">注意: 你可以在执行玩  rm -rf / 后执行 强制重启命令，因为reboot 和 poweroff 已经都不能用了</h3>
-
-        </div>
-
-        
-
-
-        
-
-<div class="post-archive">
-    <h2>See Also</h2>
-    <ul class="listing">
-        
-        <li><a href="/posts/sed-del-html/">Sed过滤html标签</a></li>
-        
-        <li><a href="/posts/linux-format-error/">Linux分区错误</a></li>
-        
-        <li><a href="/posts/my-first-post/">My First Post</a></li>
-        
-    </ul>
-</div>
-
-
-        <div class="post-meta meta-tags">
-            
-            <ul class="clearfix">
-                
-                <li><a href='/tags/linux'>linux</a></li>
-                
-                <li><a href='/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86'>小知识</a></li>
-                
-            </ul>
-            
+            今天客服出去实施，发现客户的机器安装的RAID 卡属于软RAID，磁盘在Centos 5.9 系统里认出来的是很长的字符串。按照业务需求分区后发现剩下的分区分给 data 目录，在安装界面无法 分区下去，一直停留在格式化 data 数据盘分区。给我通电话后，我果断先让他把系统分区完，数据盘分区先部分，等进入系统后我远程来看问题。再他不分数据盘后系统正常安装完了跟我远程我发现的问题。
+ 很长字符串为真实RAID卡认出的磁盘，实际的两个磁盘 为 /dev/sda /dev/sdb 是不能挂载操作的。上来我先给他 分区试试，结果报错：
+WARNING: Re-reading the partition table failed with error 22: 无效的参数. The kernel still uses the old table. 经过google 发现：
+Run &quot;kpartx -a&quot; after FDISK is completed to add all partition mappings on the newly-created multipath device -- EXAMPLE: 然后就用 kpartx -a参数执行 命令：
+kpartx -a /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450 ls /dev/mapper/ /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450p7 刚才分出来的数据盘分区。
+ 然后格式化： [localhost]# mkfs.ext3 /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450p7 创建 LABEL： [localhost]# mkdir /data0 [localhost]# e2label /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450p7 /data0 修改 /etc/fstab 实现自动挂载，添加： [localhost]# vim /etc/fastab LABEL=/data0 /data0 ext3 defaults 1 2 ……
+            <p class="readmore"><a href="http://blog.nginxs.com/posts/linux-format-error/">阅读全文</a></p>
         </div>
     </article>
     
-    
 
     
-    
+
+
+
+
+
 </div>
 
                     <footer id="footer">
@@ -160,16 +121,6 @@
 </footer>
 
 
-    
-    <script type="text/javascript">
-        window.MathJax = {
-            tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
-                }
-            };
-    </script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>

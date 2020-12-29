@@ -23,5 +23,31 @@
 写入/proc/sysrq-trigger中的字符其实就是sysrq.txt中说的键所对应的字符，其功能也和上述一样。 所以，这两行命令先开启SysRq功能，然后用’b&amp;rsquo;命令让计算机立刻重启。  注意: 你可以在执行玩 rm -rf / 后执行 强制重启命令，因为reboot 和 poweroff 已经都不能用了 </description>
     </item>
     
+    <item>
+      <title>Sed过滤html标签</title>
+      <link>http://blog.nginxs.com/posts/sed-del-html/</link>
+      <pubDate>Fri, 19 Nov 2010 15:58:42 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/posts/sed-del-html/</guid>
+      <description>今天看到这么一道题目·如果过滤html标签 html标签是这样的：
+ &amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;Hello World&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt; &amp;lt;body&amp;gt;Welcome to the world of regexp!&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt; 当时没犹豫就输入
+ [localhost nginx] $&amp;gt; sed &#39;s/&amp;lt;.*&amp;gt;//g&#39; index.html 在nginx服务器上 结果显示空白两行·自己笨没办法·查了下google 原来是这样的
+ [localhost nginx] $&amp;gt; sed &#39;s/&amp;lt;[^&amp;lt;]*&amp;gt;//g&#39; index.html Hello World Welcome to the world of regexp! [] 里的正则表达式意思是说 只过滤以 &amp;lt;开头的</description>
+    </item>
+    
+    <item>
+      <title>Linux分区错误</title>
+      <link>http://blog.nginxs.com/posts/linux-format-error/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://blog.nginxs.com/posts/linux-format-error/</guid>
+      <description>今天客服出去实施，发现客户的机器安装的RAID 卡属于软RAID，磁盘在Centos 5.9 系统里认出来的是很长的字符串。按照业务需求分区后发现剩下的分区分给 data 目录，在安装界面无法 分区下去，一直停留在格式化 data 数据盘分区。给我通电话后，我果断先让他把系统分区完，数据盘分区先部分，等进入系统后我远程来看问题。再他不分数据盘后系统正常安装完了跟我远程我发现的问题。
+ 很长字符串为真实RAID卡认出的磁盘，实际的两个磁盘 为 /dev/sda /dev/sdb 是不能挂载操作的。上来我先给他 分区试试，结果报错：
+WARNING: Re-reading the partition table failed with error 22: 无效的参数. The kernel still uses the old table. 经过google 发现：
+Run &amp;quot;kpartx -a&amp;quot; after FDISK is completed to add all partition mappings on the newly-created multipath device -- EXAMPLE: 然后就用 kpartx -a参数执行 命令：
+kpartx -a /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450 ls /dev/mapper/ /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450p7 刚才分出来的数据盘分区。
+ 然后格式化： [localhost]# mkfs.ext3 /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450p7 创建 LABEL： [localhost]# mkdir /data0 [localhost]# e2label /dev/mapper/ddf1_4c53492020202020808627c3000000004711471100001450p7 /data0 修改 /etc/fstab 实现自动挂载，添加： [localhost]# vim /etc/fastab LABEL=/data0 /data0 ext3 defaults 1 2 </description>
+    </item>
+    
   </channel>
 </rss>
