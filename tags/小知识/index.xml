@@ -13,12 +13,14 @@
       <pubDate>Tue, 29 Dec 2020 15:03:33 +0800</pubDate>
       
       <guid>http://blog.nginxs.com/posts/linux-force-reboot/</guid>
-      <description>今天IDC有服务器有两个分区变为只读分区，首先处理我想想卸载分区实行修复在挂载，无法卸载，然后考虑到线上服务器有备机，所以索性就直接重启下，执行 reboot 结果没响应，init 6 同样没响应。然后拿起电话准备给IDC 打电话重，后来想下肯定有办法重启的，就 google 了一下，果然找到了办法。执行下面两条命令：
-# echo 1 &amp;gt; /proc/sys/kernel/sysrq # echo b &amp;gt; /proc/sysrq-trigger  /proc/sys/kernel/sysrq 向sysrq文件中写入1是为了开启SysRq功能。根据linux/Documentations/sysrq.txt中所说：SysRq代表的是Magic System Request Key。开启了这个功能以后，只要内核没有挂掉，它就会响应你要求的任何操作。但是这需要内核支持(CONFIG_MAGIC_SYSRQ选项)。向/proc/sys/kernel/sysrq中写入0是关闭sysrq功能，写入1是开启，其他选项请参考sysrq.txt。需要注意的是，/proc/sys/kernel/sysrq中的值只影响键盘的操作。  那么怎么使用SysRq键呢？
+      <description> 今天IDC有服务器有两个分区变为只读分区，首先处理我想想卸载分区实行修复在挂载，无法卸载，然后考虑到线上服务器有备机，所以索性就直接重启下，执行 reboot 结果没响应，init 6 同样没响应。然后拿起电话准备给IDC 打电话重，后来想下肯定有办法重启的，就 google 了一下，果然找到了办法。执行下面两条命令：
+# echo 1 &amp;gt; /proc/sys/kernel/sysrq # echo b &amp;gt; /proc/sysrq-trigger   /proc/sys/kernel/sysrq
+向sysrq文件中写入1是为了开启SysRq功能.根据linux/Documentations/sysrq.txt中所说：SysRq代表的是Magic System Request Key。开启了这个功能以后，只要内核没有挂掉，它就会响应你要求的任何操作。但是这需要内核支持(CONFIG_MAGIC_SYSRQ选项)。向/proc/sys/kernel/sysrq中写入0是关闭sysrq功能，写入1是开启，其他选项请参考sysrq.txt。需要注意的是，/proc/sys/kernel/sysrq中的值只影响键盘的操作。
+那么怎么使用SysRq键呢?
 在x86平台上，组合键” + SysRq + “组成SysRq键以完成各种功能。但是，在一些键盘上可能没有SysRq键。SysRq键实际上就是”Print Screen“键。并且可能有些键盘不支持同时按三个按键，所以你可以”按住ALT键“，”按一下SysRq键“，再”按一下键“，如果你运气好的话，这个会有效果的。不过放心，现在的键盘一般都支持同时按3个或3个以上的键。
-有很多，这里只挑几个来说，其他的可以参考sysrq.txt文件。
-• ’b’ —— 将会立即重启系统，并且不会管你有没有数据没有写回磁盘，也不卸载磁盘，而是完完全全的立即关机 • ’o’ —— 将会关机 • ’s’ —— 将会同步所有以挂在的文件系统 • ’u’ —— 将会重新将所有的文件系统挂在为只读属性 /proc/sysrq-trigger 从文件名字就可以看出来这两个是有关系的。写入/proc/sysrq-trigger中的字符其实就是sysrq.txt中说的键所对应的字符，其功能也和上述一样。  所以，这两行命令先开启SysRq功能，然后用’b&amp;rsquo;命令让计算机立刻重启。
-注意: 你可以在执行玩 rm -rf / 后执行 强制重启命令，因为reboot 和 poweroff 已经都不能用了</description>
+有很多，这里只挑几个来说，其他的可以参考sysrq.txt文件。  • ’b’ —— 将会立即重启系统，并且不会管你有没有数据没有写回磁盘，也不卸载磁盘，而是完完全全的立即关机 • ’o’ —— 将会关机 • ’s’ —— 将会同步所有以挂在的文件系统 • ’u’ —— 将会重新将所有的文件系统挂在为只读属性  /proc/sysrq-trigger
+从文件名字就可以看出来这两个是有关系的。
+写入/proc/sysrq-trigger中的字符其实就是sysrq.txt中说的键所对应的字符，其功能也和上述一样。 所以，这两行命令先开启SysRq功能，然后用’b&amp;rsquo;命令让计算机立刻重启。  注意: 你可以在执行玩 rm -rf / 后执行 强制重启命令，因为reboot 和 poweroff 已经都不能用了 </description>
     </item>
     
   </channel>
