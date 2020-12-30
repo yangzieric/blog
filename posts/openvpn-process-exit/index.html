@@ -7,21 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>postfix | Eric&#39;s blog</title>
-    <meta property="og:title" content="postfix - Eric&#39;s blog">
+    <title>Openvpn异常退出 | Eric&#39;s blog</title>
+    <meta property="og:title" content="Openvpn异常退出 - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
+    <meta property="article:published_time" content='2015-02-27T09:13:39&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2015-02-27T09:13:39&#43;08:00'>
         
     <meta name="Keywords" content="linux,C&#43;&#43;,C,后台开发,操作系统,数据结构,算法,计算机网络">
-    <meta name="description" content="postfix">
+    <meta name="description" content="Openvpn异常退出">
         
     <meta name="author" content="杨振良">
-    <meta property="og:url" content="http://blog.nginxs.com/tags/postfix/">
+    <meta property="og:url" content="http://blog.nginxs.com/posts/openvpn-process-exit/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.nginxs.com/tags/postfix/index.xml" title="Eric's blog" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -63,41 +66,114 @@
                     
 <div class="res-cons">
     
-    <h3 class="archive-title">
-        包含标签
-        <span class="keyword">postfix</span>
-        的文章
-    </h3>
-    
-
-    
     <article class="post">
         <header>
-            <h1 class="post-title">
-                <a href="http://blog.nginxs.com/posts/postfix-mysql-dovecot-postfixadmin/">Postfix Mysql Dovecot Postfixadmin</a>
-            </h1>
+            <h1 class="post-title">Openvpn异常退出</h1>
         </header>
         <date class="post-meta meta-date">
-            2010年3月16日
+            2015年2月27日
         </date>
         
+        
+        
         <div class="post-content">
-            Postfix 是一种电子邮件服务器，它是由任职于IBM华生研究中心（T.J. Watson Research Center）的荷兰籍研究员Wietse Venema为了改良sendmail邮件服务器而产生的。最早在1990年代晚期出现，是一个开放源代码的软件。 我是安装在了ubuntu server 上安装的，因为需要web界面操作,所以需要安装 apache+php 我的环境是:
-ubuntu + apache2 + php5 + dovecot + postfix + postfixadmin 安装步骤:
-1.首先在域名服务商的 DNS解析上添加 MX 映射： IN MX 10 mail.ludy.com.
-mail IN A “IP地址”
-2.安装mysql 由于我比较懒，我就用了懒人模式,安装时候要记得root 密码 Shell $&gt; apt-get install mysql-server 创建postfix数据库，以及操作数据库user Shell $&gt; mysql -u root -p Enter password: Welcome to the MySQL monitor. Commands end with ; or \g. Your MySQL connection id is 58 Server version: 5.……
-            <p class="readmore"><a href="http://blog.nginxs.com/posts/postfix-mysql-dovecot-postfixadmin/">阅读全文</a></p>
+            <p>    最近的openvpn服务异常退出了多次，由于当初为了排查问题记录大量的debug日志，导致出现问题的时候想定位问题很难，瞬间日志就被刷没了，进程掉了，瞬间启动、瞬间又掉了，导致很多订单丢了！由于日子文件记录了太多无用信息，不敢通过查日志来定位问题，开始大胆猜测：</p>
+<ul>
+<li>
+<ol>
+<li>openvpn 服务器（虚拟机）的 内存不够了 因为只有 2G 内存</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>I/O过高，因为日志开启了 DEBUG 的原因，大量写日志操作，</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>打开文件描述符不够，系统默认 1024</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>有人恶意攻击openvpn 服务</li>
+</ol>
+</li>
+</ul>
+<p>根据猜测的4点，开始应对</p>
+<ul>
+<li>
+<ol>
+<li>首选把openpvn服务器（虚拟机）内存调整到了4G，重启后发现openvpn 服务在启动后的 几分钟还是异常掉，</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>把日志调整为 error ，openvpn 在启动后 几分钟还是异常退出了。</li>
+</ol>
+</li>
+</ul>
+<p>查看日志发现是</p>
+<pre><code>Feb 18 17:17:42 localhost openvpn[1219]: qn_anqiu/xxx.xxx.xxx.xx:27351 CRL: cannot read: /usr/local/cine/etc/keys/crl.pem: Too many open files (errno=24) 
+</code></pre><ul>
+<li>
+<ol start="3">
+<li>有上面的错误日志提示，说明猜想的 第三点是对的。 执行命令：</li>
+</ol>
+</li>
+</ul>
+<pre><code>shell $&gt; ulimit -SHn 65535 
+</code></pre><p>在启动 openvpn 进程后，正常了没有再次退出了。</p>
+<ul>
+<li>
+<ol start="4">
+<li>查看日志 发现有一个 IP 每分钟都在非正常请求 openvpn 服务器，直接在 iptables 过滤掉此IP</li>
+</ol>
+</li>
+</ul>
+<pre><code>Feb 16 13:06:16 localhost openvpn[1219]: 58.244.191.51:47374 WARNING: Bad encapsulated packet length from peer (18245), which must be &gt; 0 and &lt; = 1544 -- please ensure that --tun-mtu or --link-mtu is equal on both peers -- this condition could also indicate a possible active attack on the TCP link -- [Attemping restart...]
+Feb 16 13:07:21 localhost openvpn[1219]: 58.244.191.51:6043 WARNING: Bad encapsulated packet length from peer (18245), which must be &gt; 0 and &lt; = 1544 -- please ensure that --tun-mtu or --link-mtu is equal on both peers -- this condition could also indicate a possible active attack on the TCP link -- [Attemping restart...] 
+</code></pre><p>经过上面的修改，经过两天后 openvpn 还是异常掉了一次，经过查看日志还是老问题：</p>
+<pre><code>Feb 18 17:17:42 localhost openvpn[1219]: qn_anqiu/xxx.xxx.xxx.xx:27351 CRL: cannot read: /usr/local/cine/etc/keys/crl.pem: Too many open files (errno=24) 
+</code></pre><p>就算打开文件描述符进程也不应该掉啊，这说明是openvpn 的 BUG， crl.pem 该文件里存的是注销的证书，如果是注销的证书验证是不能通过，openvpn服务就会拒绝连接，我目前有 800多个客户端来连接，难道是每个连接都要请求该文件没有释放吗？就算没有释放65535 个文件描述符还是不够么？
+为了解决问题只好修改配置文件把这个验证注销证书的参数去掉，在重启 openvpn 进程，就正常了再也没有出现过问题。具体如何产生还需要进一步观察和研究。</p>
+
+        </div>
+
+        
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/posts/linux-format-error/">Linux分区错误</a></li>
+        
+        <li><a href="/posts/linux-force-reboot/">Linux Force Reboot</a></li>
+        
+        <li><a href="/posts/sed-del-html/">Sed过滤html标签</a></li>
+        
+        <li><a href="/posts/thttpd-and-php-5.3.3/">thttpd and php 5.3</a></li>
+        
+        <li><a href="/posts/postfix-mysql-dovecot-postfixadmin/">Postfix Mysql Dovecot Postfixadmin</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            没有标签
+            
         </div>
     </article>
     
-
     
 
-
-
-
-
+    
+    
 </div>
 
                     <footer id="footer">
@@ -120,6 +196,16 @@ mail IN A “IP地址”
 </footer>
 
 
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>

@@ -81,6 +81,25 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="http://blog.nginxs.com/posts/openvpn-process-exit/" title="Openvpn异常退出">Openvpn异常退出</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2015年2月27日
+        </date>
+        
+        <div class="post-content">
+            最近的openvpn服务异常退出了多次，由于当初为了排查问题记录大量的debug日志，导致出现问题的时候想定位问题很难，瞬间日志就被刷没了，进程掉了，瞬间启动、瞬间又掉了，导致很多订单丢了！由于日子文件记录了太多无用信息，不敢通过查日志来定位问题，开始大胆猜测：
+   openvpn 服务器（虚拟机）的 内存不够了 因为只有 2G 内存    I/O过高，因为日志开启了 DEBUG 的原因，大量写日志操作，    打开文件描述符不够，系统默认 1024    有人恶意攻击openvpn 服务    根据猜测的4点，开始应对
+   首选把openpvn服务器（虚拟机）内存调整到了4G，重启后发现openvpn 服务在启动后的 几分钟还是异常掉，    把日志调整为 error ，openvpn 在启动后 几分钟还是异常退出了。    查看日志发现是
+Feb 18 17:17:42 localhost openvpn[1219]: qn_anqiu/xxx.xxx.xxx.xx:27351 CRL: cannot read: /usr/local/cine/etc/keys/crl.pem: Too many open files (errno=24)   有上面的错误日志提示，说明猜想的 第三点是对的。 执行命令：    shell $&gt; ulimit -SHn 65535 在启动 openvpn 进程后，正常了没有再次退出了。……
+        </div>
+        <p class="readmore"><a href="http://blog.nginxs.com/posts/openvpn-process-exit/">阅读全文</a></p>
+    </article>
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="http://blog.nginxs.com/posts/linux-format-error/" title="Linux分区错误">Linux分区错误</a>
             </h1>
         </header>
@@ -235,6 +254,10 @@ mail IN A “IP地址”
     
     <li>
         <a href="http://blog.nginxs.com/posts/my-first-post/" title="My First Post">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/openvpn-process-exit/" title="Openvpn异常退出">Openvpn异常退出</a>
     </li>
     
     <li>
