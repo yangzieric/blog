@@ -9,21 +9,21 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>mkfs | Eric&#39;s blog</title>
-    <meta property="og:title" content="mkfs - Eric&#39;s blog">
+    <title>小知识 | Eric&#39;s blog</title>
+    <meta property="og:title" content="小知识 - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="linux,golang,vue,后台开发,操作系统,数据结构,算法,计算机网络,mysql,开源">
-    <meta name="description" content="mkfs">
+    <meta name="description" content="小知识">
         
     <meta name="author" content="Eric">
-    <meta property="og:url" content="http://blog.nginxs.com/tags/mkfs/">
+    <meta property="og:url" content="http://blog.nginxs.com/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.nginxs.com/tags/mkfs/index.xml" title="Eric's blog" />
+    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.nginxs.com/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86/index.xml" title="Eric's blog" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -70,9 +70,9 @@
 <div class="res-cons">
     
     <h3 class="archive-title">
-        包含标签
-        <span class="keyword">mkfs</span>
-        的文章
+        分类
+        <span class="keyword">小知识</span>
+        中的文章
     </h3>
     
 
@@ -80,16 +80,23 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="http://blog.nginxs.com/posts/linux-format-error/">Linux分区错误</a>
+                <a href="http://blog.nginxs.com/posts/linux-force-reboot/">Linux Force Reboot</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2014年3月7日
+            2013年4月3日
         </date>
         
+        <div class="post-meta meta-category">
+            |
+            
+            <a href='/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86'>小知识</a>
+            
+        </div>
+        
         <div class="post-content">
-            今天客服出去实施，发现客户的机器安装的RAID 卡属于软RAID，磁盘在Centos 5.9 系统里认出来的是很长的字符串。按照业务需求分区后发现剩下的分区分给 data 目录，在安装界面无法 分区下去，一直停留在格式化 data 数据盘分区。给我通电话后，我果断先让他把系统分区完，数据……
-            <p class="readmore"><a href="http://blog.nginxs.com/posts/linux-format-error/">阅读全文</a></p>
+            今天IDC有服务器有两个分区变为只读分区，首先处理我想想卸载分区实行修复在挂载，无法卸载，然后考虑到线上服务器有备机，所以索性就直接重启下，执行 reboot 结果没响应，init 6 同样没响应。然后拿起电话准备给IDC 打电话重，后来想下肯定有办法重启的，就 google 了一下，果然……
+            <p class="readmore"><a href="http://blog.nginxs.com/posts/linux-force-reboot/">阅读全文</a></p>
         </div>
     </article>
     

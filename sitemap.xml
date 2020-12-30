@@ -53,12 +53,37 @@
   </url>
   
   <url>
+    <loc>http://blog.nginxs.com/categories/</loc>
+    <lastmod>2013-04-03T15:03:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/series/linux/</loc>
+    <lastmod>2013-04-03T15:03:33+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.nginxs.com/posts/linux-force-reboot/</loc>
     <lastmod>2013-04-03T15:03:33+08:00</lastmod>
   </url>
   
   <url>
+    <loc>http://blog.nginxs.com/series/</loc>
+    <lastmod>2013-04-03T15:03:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/about/</loc>
+    <lastmod>2013-04-03T15:03:33+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/</loc>
+    <lastmod>2013-04-03T15:03:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2013-04-03T15:03:33+08:00</lastmod>
   </url>
   
@@ -108,7 +133,11 @@
   </url>
   
   <url>
-    <loc>http://blog.nginxs.com/categories/</loc>
+    <loc>http://blog.nginxs.com/archives/</loc>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/search/</loc>
   </url>
   
 </urlset>

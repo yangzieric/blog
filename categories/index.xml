@@ -5,6 +5,16 @@
     <link>http://blog.nginxs.com/categories/</link>
     <description>Recent content in Categories on Eric&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="http://blog.nginxs.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Wed, 03 Apr 2013 15:03:33 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>小知识</title>
+      <link>http://blog.nginxs.com/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Wed, 03 Apr 2013 15:03:33 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

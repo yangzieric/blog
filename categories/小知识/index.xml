@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>小知识 on Eric&#39;s blog</title>
+    <link>http://blog.nginxs.com/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86/</link>
+    <description>Recent content in 小知识 on Eric&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 03 Apr 2013 15:03:33 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux Force Reboot</title>
+      <link>http://blog.nginxs.com/posts/linux-force-reboot/</link>
+      <pubDate>Wed, 03 Apr 2013 15:03:33 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/posts/linux-force-reboot/</guid>
+      <description>今天IDC有服务器有两个分区变为只读分区，首先处理我想想卸载分区实行修复在挂载，无法卸载，然后考虑到线上服务器有备机，所以索性就直接重启下，执行 reboot 结果没响应，init 6 同样没响应。然后拿起电话准备给IDC 打电话重，后来想下肯定有办法重启的，就 google 了一下，果然</description>
+    </item>
+    
+  </channel>
+</rss>

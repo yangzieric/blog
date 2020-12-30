@@ -9,21 +9,20 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>mkfs | Eric&#39;s blog</title>
-    <meta property="og:title" content="mkfs - Eric&#39;s blog">
+    <title>搜索 | Eric&#39;s blog</title>
+    <meta property="og:title" content="搜索 - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="linux,golang,vue,后台开发,操作系统,数据结构,算法,计算机网络,mysql,开源">
-    <meta name="description" content="mkfs">
+    <meta name="description" content="搜索页面">
         
     <meta name="author" content="Eric">
-    <meta property="og:url" content="http://blog.nginxs.com/tags/mkfs/">
+    <meta property="og:url" content="http://blog.nginxs.com/search/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.nginxs.com/tags/mkfs/index.xml" title="Eric's blog" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -68,39 +67,71 @@
                 <div class="col-8" id="main">
                     
 <div class="res-cons">
-    
     <h3 class="archive-title">
-        包含标签
-        <span class="keyword">mkfs</span>
-        的文章
+        搜索
+        <span class="keyword">哈哈</span>
+        的结果
     </h3>
-    
 
-    
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="http://blog.nginxs.com/posts/linux-format-error/">Linux分区错误</a>
+                <a href="链接">标题</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2014年3月7日
+            2019年12月01日
         </date>
-        
         <div class="post-content">
-            今天客服出去实施，发现客户的机器安装的RAID 卡属于软RAID，磁盘在Centos 5.9 系统里认出来的是很长的字符串。按照业务需求分区后发现剩下的分区分给 data 目录，在安装界面无法 分区下去，一直停留在格式化 data 数据盘分区。给我通电话后，我果断先让他把系统分区完，数据……
-            <p class="readmore"><a href="http://blog.nginxs.com/posts/linux-format-error/">阅读全文</a></p>
+            概要……
+            <p class="readmore"><a href="链接">阅读全文</a></p>
         </div>
     </article>
-    
-
-    
-
-
-
-
 
 </div>
+
+<script type="text/javascript">
+
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+
+    $(document).ready(function () {
+        var q = getUrlParameter("q");
+        $("span.keyword").text(q);
+        $("article.post").remove();
+        $.ajax({
+            url: 'http:\/\/blog.nginxs.com\/index.xml',
+            dataType: "xml",
+            success: function (data) {
+                $(data).find("item").each(function () {
+                    var item = $(this);
+                    var title = item.find("title").text();
+                    if (title.toLowerCase().indexOf(q.toLowerCase()) >= 0) {
+                        var url = item.find("link").text();
+                        var searchItem = `<article class="post"><header><h1 class="post-title"><a href="` + url + `">` + title + `</a></h1></header>`;
+                        var pubDate = new Date(item.find("pubDate").text())
+                        searchItem += `<date class="post-meta meta-date">` + pubDate.getFullYear() + `年` + (pubDate.getMonth() + 1) + `月` + pubDate.getDate() + `日</date>`;
+                        searchItem += `<div class="post-content">` + item.find("description").text() + `……<p class="readmore"><a href="` + url + `">阅读全文</a></p></div></article>`;
+
+                        $("div.res-cons").append(searchItem);
+                    }
+                });
+            }
+        });
+    });
+</script>
 
                     <footer id="footer">
     <div>
@@ -122,6 +153,16 @@
 </footer>
 
 
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
