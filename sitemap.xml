@@ -133,6 +133,21 @@
   </url>
   
   <url>
+    <loc>http://blog.nginxs.com/tags/kernel/</loc>
+    <lastmod>2008-09-17T11:41:57+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/tags/lfs/</loc>
+    <lastmod>2008-09-17T11:41:57+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.nginxs.com/posts/linux-lfs/</loc>
+    <lastmod>2008-09-17T11:41:57+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.nginxs.com/archives/</loc>
   </url>
   

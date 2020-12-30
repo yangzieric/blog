@@ -16,5 +16,14 @@
       <description>今天IDC有服务器有两个分区变为只读分区，首先处理我想想卸载分区实行修复在挂载，无法卸载，然后考虑到线上服务器有备机，所以索性就直接重启下，执行 reboot 结果没响应，init 6 同样没响应。然后拿起电话准备给IDC 打电话重，后来想下肯定有办法重启的，就 google 了一下，果然</description>
     </item>
     
+    <item>
+      <title>Linux LFS</title>
+      <link>http://blog.nginxs.com/posts/linux-lfs/</link>
+      <pubDate>Wed, 17 Sep 2008 11:41:57 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/posts/linux-lfs/</guid>
+      <description>什么是 LFS LFS 全称 Linux From Scratch（LFS）是一个项目，可为您提供逐步指导，以完全从源代码构建自己的定制Linux系统 为什么了解 LFS系统 肯定会有很多人有疑问，他们可以直接下载使用一个已经发行的现有的linux就可以了，却为什么要从头开始构建一个Linux(</description>
+    </item>
+    
   </channel>
 </rss>

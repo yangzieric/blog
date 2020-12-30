@@ -9,20 +9,21 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>搜索 | Eric&#39;s blog</title>
-    <meta property="og:title" content="搜索 - Eric&#39;s blog">
+    <title>kernel | Eric&#39;s blog</title>
+    <meta property="og:title" content="kernel - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="linux,golang,vue,后台开发,操作系统,数据结构,算法,计算机网络,mysql,开源">
-    <meta name="description" content="搜索页面">
+    <meta name="description" content="kernel">
         
     <meta name="author" content="Eric">
-    <meta property="og:url" content="http://blog.nginxs.com/search/">
+    <meta property="og:url" content="http://blog.nginxs.com/tags/kernel/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.nginxs.com/tags/kernel/index.xml" title="Eric's blog" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -67,71 +68,46 @@
                 <div class="col-8" id="main">
                     
 <div class="res-cons">
+    
     <h3 class="archive-title">
-        搜索
-        <span class="keyword">哈哈</span>
-        的结果
+        包含标签
+        <span class="keyword">kernel</span>
+        的文章
     </h3>
+    
 
+    
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="链接">标题</a>
+                <a href="http://blog.nginxs.com/posts/linux-lfs/">Linux LFS</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2019年12月01日
+            2008年9月17日
         </date>
+        
+        <div class="post-meta meta-category">
+            |
+            
+            <a href='/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86'>小知识</a>
+            
+        </div>
+        
         <div class="post-content">
-            概要……
-            <p class="readmore"><a href="链接">阅读全文</a></p>
+            什么是 LFS LFS 全称 Linux From Scratch（LFS）是一个项目，可为您提供逐步指导，以完全从源代码构建自己的定制Linux系统 为什么了解 LFS系统 肯定会有很多人有疑问，他们可以直接下载使用一个已经发行的现有的linux就可以了，却为什么要从头开始构建一个Linux(……
+            <p class="readmore"><a href="http://blog.nginxs.com/posts/linux-lfs/">阅读全文</a></p>
         </div>
     </article>
+    
+
+    
+
+
+
+
 
 </div>
-
-<script type="text/javascript">
-
-    var getUrlParameter = function getUrlParameter(sParam) {
-        var sPageURL = window.location.search.substring(1),
-            sURLVariables = sPageURL.split('&'),
-            sParameterName,
-            i;
-
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
-
-            if (sParameterName[0] === sParam) {
-                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-            }
-        }
-    };
-
-    $(document).ready(function () {
-        var q = getUrlParameter("q");
-        $("span.keyword").text(q);
-        $("article.post").remove();
-        $.ajax({
-            url: 'http:\/\/blog.nginxs.com\/index.xml',
-            dataType: "xml",
-            success: function (data) {
-                $(data).find("item").each(function () {
-                    var item = $(this);
-                    var title = item.find("title").text();
-                    if (title.toLowerCase().indexOf(q.toLowerCase()) >= 0) {
-                        var url = item.find("link").text();
-                        var searchItem = `<article class="post"><header><h1 class="post-title"><a href="` + url + `">` + title + `</a></h1></header>`;
-                        var pubDate = new Date(item.find("pubDate").text())
-                        searchItem += `<date class="post-meta meta-date">` + pubDate.getFullYear() + `年` + (pubDate.getMonth() + 1) + `月` + pubDate.getDate() + `日</date>`;
-                        searchItem += `<div class="post-content">` + item.find("description").text() + `……<p class="readmore"><a href="` + url + `">阅读全文</a></p></div></article>`;
-
-                        $("div.res-cons").append(searchItem);
-                    }
-                });
-            }
-        });
-    });
-</script>
 
                     <footer id="footer">
     <div>
@@ -153,16 +129,6 @@
 </footer>
 
 
-    
-    <script type="text/javascript">
-        window.MathJax = {
-            tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
-                }
-            };
-    </script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>

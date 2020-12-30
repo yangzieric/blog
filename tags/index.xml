@@ -106,5 +106,23 @@
       <description></description>
     </item>
     
+    <item>
+      <title>kernel</title>
+      <link>http://blog.nginxs.com/tags/kernel/</link>
+      <pubDate>Wed, 17 Sep 2008 11:41:57 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/kernel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lfs</title>
+      <link>http://blog.nginxs.com/tags/lfs/</link>
+      <pubDate>Wed, 17 Sep 2008 11:41:57 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/tags/lfs/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

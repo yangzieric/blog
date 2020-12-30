@@ -34,5 +34,14 @@
       <description>今天看到这么一道题目·如果过滤html标签 html标签是这样的： &amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;Hello World&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt; &amp;lt;body&amp;gt;Welcome to the world of regexp!&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt; 当时没犹豫就输入 [localhost nginx] $&amp;gt; sed &#39;s/&amp;lt;.*&amp;gt;//g&#39; index.html 在nginx服务器上 结果显示空白两行·自己笨没办法·查了下google 原来是这样的 [localhost nginx] $&amp;gt; sed &#39;s/&amp;lt;[^&amp;lt;]*&amp;gt;//g&#39; index.html Hello World Welcome to the world of regexp! [] 里的正则表达式意思是说 只过滤以 &amp;lt</description>
     </item>
     
+    <item>
+      <title>Linux LFS</title>
+      <link>http://blog.nginxs.com/posts/linux-lfs/</link>
+      <pubDate>Wed, 17 Sep 2008 11:41:57 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/posts/linux-lfs/</guid>
+      <description>什么是 LFS LFS 全称 Linux From Scratch（LFS）是一个项目，可为您提供逐步指导，以完全从源代码构建自己的定制Linux系统 为什么了解 LFS系统 肯定会有很多人有疑问，他们可以直接下载使用一个已经发行的现有的linux就可以了，却为什么要从头开始构建一个Linux(</description>
+    </item>
+    
   </channel>
 </rss>

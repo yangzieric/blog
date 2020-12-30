@@ -80,6 +80,15 @@
     </item>
     
     <item>
+      <title>Linux LFS</title>
+      <link>http://blog.nginxs.com/posts/linux-lfs/</link>
+      <pubDate>Wed, 17 Sep 2008 11:41:57 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/posts/linux-lfs/</guid>
+      <description>什么是 LFS LFS 全称 Linux From Scratch（LFS）是一个项目，可为您提供逐步指导，以完全从源代码构建自己的定制Linux系统 为什么了解 LFS系统 肯定会有很多人有疑问，他们可以直接下载使用一个已经发行的现有的linux就可以了，却为什么要从头开始构建一个Linux(</description>
+    </item>
+    
+    <item>
       <title>归档</title>
       <link>http://blog.nginxs.com/archives/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
