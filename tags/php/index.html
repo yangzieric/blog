@@ -6,13 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
 
     <title>php | Eric&#39;s blog</title>
     <meta property="og:title" content="php - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
         
-    <meta name="Keywords" content="linux,C&#43;&#43;,C,后台开发,操作系统,数据结构,算法,计算机网络">
+    <meta name="Keywords" content="linux,golang,vue,后台开发,操作系统,数据结构,算法,计算机网络,mysql,开源">
     <meta name="description" content="php">
         
     <meta name="author" content="杨振良">
@@ -43,7 +45,7 @@
                         Eric&#39;s blog
                     </a>
                 
-                <p class="description">Stay hungry. Stay foolish.</p>
+                <p class="description">一个Eric可以写字的地方</p>
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
@@ -82,9 +84,7 @@
         </date>
         
         <div class="post-content">
-            由于2.25b+php-5.2.11版本，昨天测试上传有问题·试这改了很多源码，只支持了火狐浏览器上传小文件，而IE浏览器则直接返回该页无法显示，今天下下来 php5.3.3最新版的PHP，看了下thttpd 的源码，只支持thttpd 2.21b.然后就试着安装了下·现在可以了上传了支持 POST上传了！
-下载源码包：
-thttpd $&gt; wget http://cn2.php.net/get/php-5.3.3.tar.bz2/from/cn.php.net/mirror thttpd $&gt; wget http://www.acme.com/software/thttpd/thttpd-2.21b.tar.gz 1.安装thttpd php补丁 thttpd $&gt; tar jxvf php-5.3.3.tar.bz2 thttpd $&gt; tar zxvf thttpd-2.21b.tar.gz thttpd $&gt; cd php-5.3.3 thttpd $&gt; ./configure --prefix=/usr/local/php --with-thttpd=../thttpd-2.21b thttpd $&gt; make install 2.安装 thttpd thttpd $&gt; cd thttpd-2.21b thttpd $&gt; ./configure --prefix=/usr/local/thttpd thttpd $&gt; sed -i 's#getline#get_line#g' extras/htpasswd.c #不然会报错，上篇文章已经说原因了 thttpd $&gt; make thttpd $&gt; mkdir -p /usr/local/thttpd thttpd $&gt; mkdir -p /usr/local/thttpd/{man,sbin,www,etc,logs} thttpd $&gt; mkdir -p /usr/local/thttpd/man/{man1,man8} thttpd $&gt; mkdir -p /usr/local/thttpd/www/cgi-bin # thttpd-2.……
+            由于2.25b+php-5.2.11版本，昨天测试上传有问题·试这改了很多源码，只支持了火狐浏览器上传小文件，而IE浏览器则直接返回该页无法显示，今天下下来 php5.3.3最新版的PHP，看了下thttpd 的源码，只支持thttpd 2.21b.然后就试着安……
             <p class="readmore"><a href="http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/">阅读全文</a></p>
         </div>
     </article>
@@ -123,6 +123,8 @@ thttpd $&gt; wget http://cn2.php.net/get/php-5.3.3.tar.bz2/from/cn.php.net/mirro
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
 

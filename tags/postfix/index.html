@@ -6,13 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
 
     <title>postfix | Eric&#39;s blog</title>
     <meta property="og:title" content="postfix - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
         
-    <meta name="Keywords" content="linux,C&#43;&#43;,C,后台开发,操作系统,数据结构,算法,计算机网络">
+    <meta name="Keywords" content="linux,golang,vue,后台开发,操作系统,数据结构,算法,计算机网络,mysql,开源">
     <meta name="description" content="postfix">
         
     <meta name="author" content="杨振良">
@@ -43,7 +45,7 @@
                         Eric&#39;s blog
                     </a>
                 
-                <p class="description">Stay hungry. Stay foolish.</p>
+                <p class="description">一个Eric可以写字的地方</p>
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
@@ -82,11 +84,7 @@
         </date>
         
         <div class="post-content">
-            Postfix 是一种电子邮件服务器，它是由任职于IBM华生研究中心（T.J. Watson Research Center）的荷兰籍研究员Wietse Venema为了改良sendmail邮件服务器而产生的。最早在1990年代晚期出现，是一个开放源代码的软件。 我是安装在了ubuntu server 上安装的，因为需要web界面操作,所以需要安装 apache+php 我的环境是:
-ubuntu + apache2 + php5 + dovecot + postfix + postfixadmin 安装步骤:
-1.首先在域名服务商的 DNS解析上添加 MX 映射： IN MX 10 mail.ludy.com.
-mail IN A “IP地址”
-2.安装mysql 由于我比较懒，我就用了懒人模式,安装时候要记得root 密码 Shell $&gt; apt-get install mysql-server 创建postfix数据库，以及操作数据库user Shell $&gt; mysql -u root -p Enter password: Welcome to the MySQL monitor. Commands end with ; or \g. Your MySQL connection id is 58 Server version: 5.……
+            Postfix 是一种电子邮件服务器，它是由任职于IBM华生研究中心（T.J. Watson Research Center）的荷兰籍研究员Wietse Venema为了改良sendmail邮件服务器而产生的。最早在1990年代晚期出现，是一个开放源代码的软件。 我是安装在了ubuntu server 上安装的，因为……
             <p class="readmore"><a href="http://blog.nginxs.com/posts/postfix-mysql-dovecot-postfixadmin/">阅读全文</a></p>
         </div>
     </article>
@@ -125,6 +123,8 @@ mail IN A “IP地址”
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
 

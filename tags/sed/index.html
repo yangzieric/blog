@@ -6,13 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
 
     <title>sed | Eric&#39;s blog</title>
     <meta property="og:title" content="sed - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
         
-    <meta name="Keywords" content="linux,C&#43;&#43;,C,后台开发,操作系统,数据结构,算法,计算机网络">
+    <meta name="Keywords" content="linux,golang,vue,后台开发,操作系统,数据结构,算法,计算机网络,mysql,开源">
     <meta name="description" content="sed">
         
     <meta name="author" content="杨振良">
@@ -43,7 +45,7 @@
                         Eric&#39;s blog
                     </a>
                 
-                <p class="description">Stay hungry. Stay foolish.</p>
+                <p class="description">一个Eric可以写字的地方</p>
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
@@ -82,10 +84,7 @@
         </date>
         
         <div class="post-content">
-            今天看到这么一道题目·如果过滤html标签 html标签是这样的：
- &lt;html&gt;&lt;head&gt;&lt;title&gt;Hello World&lt;/title&gt;&lt;/head&gt; &lt;body&gt;Welcome to the world of regexp!&lt;/body&gt;&lt;/html&gt; 当时没犹豫就输入
- [localhost nginx] $&gt; sed 's/&lt;.*&gt;//g' index.html 在nginx服务器上 结果显示空白两行·自己笨没办法·查了下google 原来是这样的
- [localhost nginx] $&gt; sed 's/&lt;[^&lt;]*&gt;//g' index.html Hello World Welcome to the world of regexp! [] 里的正则表达式意思是说 只过滤以 &lt;开头的……
+            今天看到这么一道题目·如果过滤html标签 html标签是这样的： &lt;html&gt;&lt;head&gt;&lt;title&gt;Hello World&lt;/title&gt;&lt;/head&gt; &lt;body&gt;Welcome to the world of regexp!&lt;/body&gt;&lt;/html&gt; 当时没犹豫就输入 [localhost nginx] $&gt; sed 's/&lt;.*&gt;//g' index.html 在nginx服务器上 结果显示空白两行·自己笨没办法·查了下google 原来是这样的 [localhost nginx] $&gt; sed 's/&lt;[^&lt;]*&gt;//g' index.html Hello World Welcome to the world of regexp! [] 里的正则表达式意思是说 只过滤以 &lt……
             <p class="readmore"><a href="http://blog.nginxs.com/posts/sed-del-html/">阅读全文</a></p>
         </div>
     </article>
@@ -124,6 +123,8 @@
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
 
