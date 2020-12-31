@@ -6,7 +6,16 @@
     <description>Recent content in linux on Eric&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 03 Apr 2013 15:03:33 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/series/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 31 Dec 2020 09:35:56 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/series/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux Tc Qos</title>
+      <link>http://blog.nginxs.com/posts/linux-tc-qos/</link>
+      <pubDate>Thu, 31 Dec 2020 09:35:56 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/posts/linux-tc-qos/</guid>
+      <description>之前有了解过TC限速,但是没有系统的了解过，知识停留在会使用的层面，这次翻了一下官方文档，把分层令牌桶（HTB）了解和玩了一下。 HTB全称 Hierarchical Token Bucket 译过来就是 分层令牌桶。 一个固定速率的链路，分割给多种不同的用途使用，为每种用途做出带宽承诺并实现定量的带宽借用,</description>
+    </item>
+    
     <item>
       <title>Linux Force Reboot</title>
       <link>http://blog.nginxs.com/posts/linux-force-reboot/</link>
