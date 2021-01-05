@@ -9,21 +9,24 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>lfs | Eric&#39;s blog</title>
-    <meta property="og:title" content="lfs - Eric&#39;s blog">
+    <title>Force Disconnect Ssh | Eric&#39;s blog</title>
+    <meta property="og:title" content="Force Disconnect Ssh - Eric&#39;s blog">
     <meta property="og:type" content="article">
         
+    <meta property="article:published_time" content='2021-01-05T10:06:31&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-01-05T10:06:31&#43;08:00'>
         
     <meta name="Keywords" content="linux,golang,vue,后台开发,操作系统,数据结构,算法,计算机网络,mysql,开源">
-    <meta name="description" content="lfs">
+    <meta name="description" content="Force Disconnect Ssh">
         
     <meta name="author" content="Eric">
-    <meta property="og:url" content="http://blog.nginxs.com/tags/lfs/">
+    <meta property="og:url" content="http://blog.nginxs.com/posts/force-disconnect-ssh/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.nginxs.com/tags/lfs/index.xml" title="Eric's blog" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -69,44 +72,116 @@
                     
 <div class="res-cons">
     
-    <h3 class="archive-title">
-        包含标签
-        <span class="keyword">lfs</span>
-        的文章
-    </h3>
-    
-
-    
     <article class="post">
         <header>
-            <h1 class="post-title">
-                <a href="http://blog.nginxs.com/posts/linux-lfs/">Linux LFS</a>
-            </h1>
+            <h1 class="post-title">Force Disconnect Ssh</h1>
         </header>
         <date class="post-meta meta-date">
-            2008年9月17日
+            2021年1月5日
         </date>
         
-        <div class="post-meta meta-category">
-            |
+        <div class="post-meta">
+            <span>|</span>
             
-            <a href='/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86'>小知识</a>
+            <span class="meta-category"><a href='/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86'>小知识</a></span>
             
         </div>
         
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
         <div class="post-content">
-            什么是 LFS LFS 全称 Linux From Scratch（LFS）是一个项目，可为您提供逐步指导，以完全从源代码构建自己的定制Linux系统 为什么了解 LFS系统 肯定会有很多人有疑问，他们可以直接下载使用一个已经发行的现有的linux就可以了，却为什么要从头开始构建一个Linux(……
-            <p class="readmore"><a href="http://blog.nginxs.com/posts/linux-lfs/">阅读全文</a></p>
+            <p>因最近要操作一批服务器 执行销毁操作,故此要执行 rm -rf /, 或者 dd 等清空硬盘。
+我使用的工作电脑是 <a href="https://blog.nginxs.com/posts/force-disconnect-ssh/">ubuntu</a> 18.04, 使用的是 官方的 gnome-Terminal。
+当我在远程服务器执行完 rm -rf /, 后我需要重启远程服务器.
+由于在服务器执行了　rm -rf / 所以常规的重启命令不能使用，所以使用的发送给内核重启命令：</p>
+<pre><code>[localhost ]# echo 1 &gt; /proc/sys/kernel/sysrq
+[localhost ]# echo b &gt; /proc/sysrq-trigger
+</code></pre><p>执行完第二条命令后，Terminal 会卡死无响应。
+平常日常工作中　由于wifi 和 有线的切换 也会是 正在连着SSH 的 Terminal 卡死无响应。
+以前出现这种情况都是关闭 Terminal，这次操作一批服务器实在太麻烦，就man ssh 看一下,是否有Disconnect 方法。</p>
+<pre><code>[localhost ]# man ssh
+ESCAPE CHARACTERS
+     When a pseudo-terminal has been requested, ssh supports a number of functions through the use of an escape character.
+
+     A single tilde character can be sent as ~~ or by following the tilde by a character other than those described below.  The escape
+     character must always follow a newline to be interpreted as special.  The escape character can be changed in configuration files
+     using the EscapeChar configuration directive or on the command line by the -e option.
+
+     The supported escapes (assuming the default ‘~’) are:
+
+     ~.      Disconnect.
+
+     ~^Z     Background ssh.
+
+     ~#      List forwarded connections.
+
+...
+
+</code></pre><p>可以看到 可以在 卡死的 Terminal
+先按 enter
+再按 ~
+加 .
+就退出了</p>
+<p>尝试了一下，立即退出了，在也不需要强制关闭窗口了。</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="http://blog.nginxs.com/">Eric</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="http://blog.nginxs.com/posts/force-disconnect-ssh/">http://blog.nginxs.com/posts/force-disconnect-ssh/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/posts/linux-tc-qos/">Linux Tc Qos</a></li>
+        
+        <li><a href="/posts/linux-force-reboot/">Linux Force Reboot</a></li>
+        
+        <li><a href="/posts/sed-del-html/">Sed过滤html标签</a></li>
+        
+        <li><a href="/posts/my-first-post/">My First Post</a></li>
+        
+        <li><a href="/posts/openvpn-process-exit/">Openvpn异常退出</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/ssh'>ssh</a></li>
+                
+                <li><a href='/tags/%E6%97%A0%E5%93%8D%E5%BA%94'>无响应</a></li>
+                
+                <li><a href='/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86'>小知识</a></li>
+                
+            </ul>
+            
         </div>
     </article>
     
-
     
 
-
-
-
-
+    
+    
 </div>
 
                     <footer id="footer">
@@ -129,6 +204,16 @@
 </footer>
 
 
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>

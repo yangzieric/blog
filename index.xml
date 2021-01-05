@@ -6,7 +6,16 @@
     <description>Recent content on Eric&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 31 Dec 2020 09:35:56 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 05 Jan 2021 10:06:31 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Force Disconnect Ssh</title>
+      <link>http://blog.nginxs.com/posts/force-disconnect-ssh/</link>
+      <pubDate>Tue, 05 Jan 2021 10:06:31 +0800</pubDate>
+      
+      <guid>http://blog.nginxs.com/posts/force-disconnect-ssh/</guid>
+      <description>因最近要操作一批服务器 执行销毁操作,故此要执行 rm -rf /, 或者 dd 等清空硬盘。 我使用的工作电脑是 ubuntu 18.04, 使用的是 官方的 gnome-Terminal。 当我在远程服务器执行完 rm -rf /, 后我需要重启远程服务器. 由于在服务器执行了 rm -rf / 所以常规的重启命令不能使用，所以使用的发送给</description>
+    </item>
+    
     <item>
       <title>Linux Tc Qos</title>
       <link>http://blog.nginxs.com/posts/linux-tc-qos/</link>
