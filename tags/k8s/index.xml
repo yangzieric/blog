@@ -8,7 +8,7 @@
     <language>en-us</language>
     <lastBuildDate>Wed, 06 Jan 2021 10:18:13 +0800</lastBuildDate><atom:link href="http://blog.nginxs.com/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>K8s V1</title>
+      <title>K8s V1.17 rbac权限详解</title>
       <link>http://blog.nginxs.com/posts/k8s-v1.17-rbac/</link>
       <pubDate>Wed, 06 Jan 2021 10:18:13 +0800</pubDate>
       
