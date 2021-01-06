@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>K8s V1 | Eric&#39;s blog</title>
+    <meta property="og:title" content="K8s V1 - Eric&#39;s blog">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-01-06T10:18:13&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-01-06T10:18:13&#43;08:00'>
+        
+    <meta name="Keywords" content="linux,golang,vue,后台开发,操作系统,数据结构,算法,计算机网络,mysql,开源">
+    <meta name="description" content="K8s V1">
+        
+    <meta name="author" content="Eric">
+    <meta property="og:url" content="http://blog.nginxs.com/posts/k8s-v1.17-rbac/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://blog.nginxs.com/">
+                        Eric&#39;s blog
+                    </a>
+                
+                <p class="description">一个Eric可以写字的地方</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="http://blog.nginxs.com/">首页</a>
+                    
+                    <a  href="http://blog.nginxs.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://blog.nginxs.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">K8s V1</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年1月6日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/k8s'>k8s</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-content">
+            <p>转自官网：https://v1-17.docs.kubernetes.io/zh/docs/reference/access-authn-authz/rbac/</p>
+<p>使用 RBAC 鉴权
+基于角色（Role）的访问控制（RBAC）是一种基于企业中用户的角色来调节控制对计算机或网络资源的访问方法。</p>
+<ul>
+<li>API 概述</li>
+<li>默认 Roles 和 Role Bindings</li>
+<li>初始化与预防权限升级</li>
+<li>一些命令行工具</li>
+<li>服务账号权限</li>
+<li>宽松的 RBAC 权限</li>
+</ul>
+<p>RBAC 使用 rbac.authorization.k8s.io API 组  来驱动鉴权操作，允许管理员通过 Kubernetes API 动态配置策略。</p>
+<p>在 1.8 版本中，RBAC 模式是稳定的并通过 rbac.authorization.k8s.io/v1 API 提供支持。</p>
+<p>要启用 RBAC，在启动 API 服务器时添加 &ndash;authorization-mode=RBAC 参数。</p>
+<h2 id="api-概述">API 概述</h2>
+<p>本节介绍 RBAC API 所声明的四种顶级类型。用户可以像与其他 API 资源交互一样， （通过 kubectl、API 调用等方式）与这些资源交互。例如， 命令 kubectl apply -f (resource).yml 可以用在这里的任何一个例子之上。 尽管如此，建议读者循序渐进阅读下面的章节，由浅入深。</p>
+<h3 id="role-和-clusterrole">Role 和 ClusterRole</h3>
+<p>在 RBAC API 中，一个角色包含一组相关权限的规则。权限是纯粹累加的（不存在拒绝某操作的规则）。 角色可以用 Role 来定义到某个命名空间上， 或者用 ClusterRole 来定义到整个集群作用域。</p>
+<p>一个 Role 只可以用来对某一命名空间中的资源赋予访问权限。 下面的 Role 示例定义到名称为 “default” 的命名空间，可以用来授予对该命名空间中的 Pods 的读取权限：</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-reader
+rules:
+- apiGroups: [&quot;&quot;] # &quot;&quot; 指定核心 API 组
+  resources: [&quot;pods&quot;]
+  verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;]
+</code></pre><p>ClusterRole 可以授予的权限和 Role 相同， 但是因为 ClusterRole 属于集群范围，所以它也可以授予以下访问权限：</p>
+<ul>
+<li>集群范围资源 （比如 nodes）</li>
+<li>非资源端点（比如 “/healthz”）
+*跨命名空间访问的有名字空间作用域的资源（如 Pods），比如运行命令kubectl get pods &ndash;all-namespaces 时需要此能力</li>
+</ul>
+<p>下面的 ClusterRole 示例可用来对某特定命名空间下的 Secrets 的读取操作授权， 或者跨所有命名空间执行授权（取决于它是如何绑定的）:</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # 此处的 &quot;namespace&quot; 被省略掉是因为 ClusterRoles 是没有命名空间的。
+  name: secret-reader
+rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;secrets&quot;]
+  verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;]
+</code></pre><h3 id="rolebinding-和-clusterrolebinding">RoleBinding 和 ClusterRoleBinding</h3>
+<p>角色绑定（RoleBinding）是将角色中定义的权限赋予一个或者一组用户。 它包含若干主体（用户，组和服务账户）的列表和对这些主体所获得的角色的引用。 可以使用 RoleBinding 在指定的命名空间中执行授权， 或者在集群范围的命名空间使用 ClusterRoleBinding 来执行授权。</p>
+<p>一个 RoleBinding 可以引用同一的命名空间中的 Role 。 下面的例子 RoleBinding 将 “pod-reader” 角色授予在 “default” 命名空间中的用户 “jane”； 这样，用户 “jane” 就具有了读取 “default” 命名空间中 pods 的权限。</p>
+<p>roleRef 里的内容决定了实际创建绑定的方法。kind 可以是 Role 或 ClusterRole， name 将引用你要指定的 Role 或 ClusterRole 的名称。在下面的例子中，角色绑定使用 roleRef 将用户 “jane” 绑定到前文创建的角色 Role，其名称是 pod-reader。</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+# 此角色绑定使得用户 &quot;jane&quot; 能够读取 &quot;default&quot; 命名空间中的 Pods
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+- kind: User
+  name: jane # Name is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role #this must be Role or ClusterRole
+  name: pod-reader # 这里的名称必须与你想要绑定的 Role 或 ClusterRole 名称一致
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><p>RoleBinding 也可以引用 ClusterRole，对 ClusterRole 所定义的、位于 RoleBinding 命名空间内的资源授权。 这可以允许管理者在 整个集群中定义一组通用的角色，然后在多个命名空间中重用它们。</p>
+<p>例如下面的例子，RoleBinding 指定的是 ClusterRole， “dave” （主体，区分大小写）将只可以读取在”development” 命名空间（ RoleBinding 的命名空间）中的”secrets”。</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+# 这个角色绑定允许 &quot;dave&quot; 用户在 &quot;development&quot; 命名空间中有读取 secrets 的权限。 
+kind: RoleBinding
+metadata:
+  name: read-secrets
+  namespace: development # 这里只授予 &quot;development&quot; 命名空间的权限。
+subjects:
+- kind: User
+  name: dave # 名称区分大小写
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: secret-reader
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><p>最后，ClusterRoleBinding 可用来在集群级别或对所有命名空间执行授权。 下面的例子允许 “manager” 组中的任何用户读取任意命名空间中 “secrets”。</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+# 这个集群角色绑定允许 &quot;manager&quot; 组中的任何用户读取任意命名空间中 &quot;secrets&quot;。
+kind: ClusterRoleBinding
+metadata:
+  name: read-secrets-global
+subjects:
+- kind: Group
+  name: manager # 名称区分大小写
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: secret-reader
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><p>你不能修改绑定对象所引用的 Role 或 ClusterRole 。 试图改变绑定对象的 roleRef 将导致验证错误。想要 改变现有绑定对象中 roleRef 字段的内容，必须删除并 重新创建绑定对象。这种限制有两个主要原因：</p>
+<p>1.关于不同角色的绑定是完全不一样的。更改 roleRef 需要删除/重建绑定，确保要赋予绑定的完整主体列表是新 的角色（而不是只是启用修改 roleRef 在不验证所有现有 主体的情况下的，应该授予新角色对应的权限）。</p>
+<p>2.使得 roleRef 不可以改变现有绑定主体用户的 update 权限， 这样可以让它们能够管理主体列表，而不能更改授予这些主体相关 的角色。</p>
+<p>命令 kubectl auth reconcile 可以创建或者更新包含 RBAC 对象的清单文件， 并且在必要的情况下删除和重新创建绑定对象，以改变所引用的角色。 更多相关信息请参照命令用法和示例</p>
+<h3 id="对资源的引用">对资源的引用</h3>
+<p>大多数资源都是使用名称的字符串表示，例如在相关的 API 端点的 URL 之中出现的 “pods” 。 然而有一些 Kubernetes API 涉及 “子资源（subresources）”，例如 pod 的日志。Pod 日志相关的端点 URL 如下：</p>
+<pre><code>GET /api/v1/namespaces/{namespace}/pods/{name}/log
+</code></pre><p>在这种情况下，”pods” 是有命名空间的资源，而 “log” 是 pods 的子资源。在 RBAC 角色中， 使用”/“分隔资源和子资源。允许一个主体要同时读取 pods 和 pod logs，你可以这么写：</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-and-pod-logs-reader
+rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;pods&quot;, &quot;pods/log&quot;]
+  verbs: [&quot;get&quot;, &quot;list&quot;]
+</code></pre><p>对于某些请求，也可以通过 resourceNames 列表按名称引用资源。 在指定时，可以将请求类型限制资源的单个实例。限制只可以 “get” 和 “update” 的单一configmap，你可以这么写：</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: configmap-updater
+rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;configmaps&quot;]
+  resourceNames: [&quot;my-configmap&quot;]
+  verbs: [&quot;update&quot;, &quot;get&quot;]
+</code></pre><p>需要注意的是，create 请求不能被 resourceName 限制，因为在鉴权时还不知道对象名称。 另一个例外是 deletecollection。</p>
+<h3 id="aggregated-clusterroles">Aggregated ClusterRoles</h3>
+<p>从 1.9 开始，集群角色（ClusterRole）可以通过使用 aggregationRule 的方式并组合其他 ClusterRoles 来创建。 聚合集群角色的权限是由控制器管理的，方法是通过过滤与标签选择器匹配的 ClusterRules，并将其中的权限进行组合。 一个聚合集群角色的示例如下：</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: monitoring
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.example.com/aggregate-to-monitoring: &quot;true&quot;
+rules: [] # 具体规则由控制器管理器自动填写。
+</code></pre><p>创建一个与标签选择器匹配的 ClusterRole 之后，其上定义的规则将成为聚合集群角色的一部分。在下面的例子中， 通过创建一个新的、标签同样为 rbac.example.com/aggregate-to-monitoring: true 的 ClusterRole，新的规则可被添加到 “monitoring” 集群角色中。</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: monitoring-endpoints
+  labels:
+    rbac.example.com/aggregate-to-monitoring: &quot;true&quot;
+# 这些规则将被添加到 &quot;monitoring&quot; 角色中。
+rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;services&quot;, &quot;endpoints&quot;, &quot;pods&quot;]
+  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;]
+</code></pre><p>默认的面向用户的角色（如下所述）使用 ClusterRole 聚合。这使得管理者可以为自定义资源设置使用规则属性， 比如通过 CustomResourceDefinitions 或聚合 API 服务器为默认角色提供的服务。</p>
+<p>例如，在以下 ClusterRoles 中让 “admin” 和 “edit” 拥有管理自定义资源 “CronTabs” 的权限， “view” 角色对资源有只读操作权限。</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: aggregate-cron-tabs-edit
+  labels:
+    # 将这些权限添加到默认角色 &quot;admin&quot; 和 &quot;edit&quot; 中。
+    rbac.authorization.k8s.io/aggregate-to-admin: &quot;true&quot;
+    rbac.authorization.k8s.io/aggregate-to-edit: &quot;true&quot;
+rules:
+- apiGroups: [&quot;stable.example.com&quot;]
+  resources: [&quot;crontabs&quot;]
+  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;, &quot;create&quot;, &quot;update&quot;, &quot;patch&quot;, &quot;delete&quot;]
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: aggregate-cron-tabs-view
+  labels:
+    # 将这些权限添加到默认角色 &quot;view&quot; 中。
+    rbac.authorization.k8s.io/aggregate-to-view: &quot;true&quot;
+rules:
+- apiGroups: [&quot;stable.example.com&quot;]
+  resources: [&quot;crontabs&quot;]
+  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;]
+</code></pre><h3 id="角色示例">角色示例</h3>
+<p>在以下示例中，我们仅截取展示了 rules 对应部分， 允许读取在核心 API 组 下的 Pods:</p>
+<pre><code>rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;pods&quot;]
+  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;]
+</code></pre><p>允许读/写在 “extensions” 和 “apps” API 组中的 “deployments” 资源：</p>
+<pre><code>rules:
+- apiGroups: [&quot;extensions&quot;, &quot;apps&quot;]
+  resources: [&quot;deployments&quot;]
+  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;, &quot;create&quot;, &quot;update&quot;, &quot;patch&quot;, &quot;delete&quot;]
+</code></pre><p>允许读取 “pods” 和读/写 “jobs” :</p>
+<pre><code>rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;pods&quot;]
+  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;]
+- apiGroups: [&quot;batch&quot;, &quot;extensions&quot;]
+  resources: [&quot;jobs&quot;]
+  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;, &quot;create&quot;, &quot;update&quot;, &quot;patch&quot;, &quot;delete&quot;]
+</code></pre><p>允许读取名称为 “my-config”的 ConfigMap （需要通过 RoleBinding 绑定带某名字空间中特定的 ConfigMap）：</p>
+<pre><code>rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;configmaps&quot;]
+  resourceNames: [&quot;my-config&quot;]
+  verbs: [&quot;get&quot;]
+</code></pre><p>允许读取在核心组中的 “nodes” 资源（因为 Node 是集群范围的，所以需要 ClusterRole 绑定到 ClusterRoleBinding 才生效）</p>
+<pre><code>rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;nodes&quot;]
+  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;]
+</code></pre><p>允许在非资源端点 “/healthz” 和其子路径上发起 “GET” 和 “POST” 请求（必须在 ClusterRole 绑定 ClusterRoleBinding 才生效）</p>
+<pre><code>rules:
+- nonResourceURLs: [&quot;/healthz&quot;, &quot;/healthz/*&quot;] # '*' 在 nonResourceURL 中的意思是后缀全局匹配。
+  verbs: [&quot;get&quot;, &quot;post&quot;]
+</code></pre><h3 id="对主体的引用">对主体的引用</h3>
+<p>RoleBinding 或者 ClusterRoleBinding 需要绑定角色到 <em>主体</em>。 主体可以是组，用户或者服务账户。</p>
+<p>用户是由字符串表示，它们可以是普通的用户名，像 “alice”，或者是 邮件格式 “bob@example.com”，或者是数字ID。由 Kubernetes 管理员配置身份认证模块 需要的格式。RBAC 鉴权系统不对格式作任何要求，但是前缀 system: 是 Kubernetes 系统保留的， 所以管理员要确保配置的用户名不能出现上述前缀格式。</p>
+<p>用户组信息是 Kubernetes 现在提供的一种身份验证模块，与用户一样，对组的字符串没有格式要求， 只是不能使用保留的前缀 system: 。</p>
+<p>服务账号 的用户名前缀为system:serviceaccount:， 属于前缀为 system:serviceaccounts: 的用户组。</p>
+<h3 id="rolebinding的示例">RoleBinding的示例</h3>
+<p>下面的示例只是展示 RoleBinding 中 subjects 的部分。</p>
+<p>用户的名称为 “alice@example.com”:</p>
+<pre><code>subjects:
+- kind: User
+  name: &quot;alice@example.com&quot;
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><p>组的名称为 “frontend-admins”:</p>
+<pre><code>subjects:
+- kind: Group
+  name: &quot;frontend-admins&quot;
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><p>服务账号在 kube-system 命名空间中:</p>
+<pre><code>subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: kube-system
+</code></pre><p>在名称为 “qa” 命名空间中所有的服务账号:</p>
+<pre><code>subjects:
+- kind: Group
+  name: system:serviceaccounts:qa
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><p>所有的服务账号:</p>
+<pre><code>subjects:
+- kind: Group
+  name: system:serviceaccounts
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><p>所有认证过的用户 （版本 1.5+）:</p>
+<pre><code>subjects:
+- kind: Group
+  name: system:authenticated
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><p>所有未认证的用户 （版本 1.5+）:</p>
+<pre><code>subjects:
+- kind: Group
+  name: system:unauthenticated
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><p>所有用户 （版本 1.5+）:</p>
+<pre><code>subjects:
+- kind: Group
+  name: system:authenticated
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: system:unauthenticated
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><h2 id="默认-roles-和-role-bindings">默认 Roles 和 Role Bindings</h2>
+<p>API servers创建一组默认为 ClusterRole 和 ClusterRoleBinding 的对象。 其中许多是以 system: 为前缀的，它表示资源是基础设施 “owned” 的。对于这些资源的修改可能导致集群功能失效。 例如，system:node 是集群角色，它是定义 kubelets 相关的权限，如果这个角色被修改，它将导致 kubelets 无法正常工作。</p>
+<p>所有默认的 ClusterRole 和 ClusterRoleBinding 对象都会被标记为 kubernetes.io/bootstrapping=rbac-defaults。</p>
+<h3 id="自动更新">自动更新</h3>
+<p>在每次启动时，API Server 都会更新默认 ClusterRole 所缺少的各种权限，并更新默认 ClusterRoleBinding 所缺少的各个角色绑定主体。 这种自动更新机制允许集群去修复一些特殊的修改。 由于权限和角色绑定主体在新的 Kubernetes 版本中可能发生变化，所以这样的话也能够保证角色和角色绑定始终保持是最新的。</p>
+<p>如果要禁止此功能,请将默认ClusterRole以及ClusterRoleBinding的rbac.authorization.kubernetes.io/autoupdate设置成false。</p>
+<p>注意，缺乏默认权限和角色绑定主体可能会导致非功能性集群问题。</p>
+<p>自动更新功能在 Kubernetes 版本1.6+ 的 RBAC 认证是默认开启的。</p>
+<h3 id="discovery-roles">Discovery Roles</h3>
+<p>无论是经过身份验证的还是未经过身份验证的用户，默认角色的用户读取API被认为是安全的，可以公开访问（包括CustomResourceDefinitions）， 如果要禁用匿名未经过身份验证的用户访问，请在 API server 中添加 &ndash;anonymous-auth=false 的配置选项。</p>
+<p>通过运行命令 kubectl 可以查看这些角色的配置信息:</p>
+<pre><code>kubectl get clusterroles system:discovery -o yaml
+</code></pre><p>注意：不建议编辑这个角色，因为更改将在 API server 重启时自动更新时覆盖（见上文）</p>
+<table>
+<thead>
+<tr>
+<th>默认 ClusterRole</th>
+<th style="text-align:left">默认 ClusterRoleBinding</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>system:basic-user</td>
+<td style="text-align:left">system:authenticated 组</td>
+<td style="text-align:left">允许用户以只读的方式去访问他们自己的基本信息。在1.14版本之前，这个角色在默认情况下也绑定在 <code>system:unauthenticated</code> 上。</td>
+</tr>
+<tr>
+<td>system:discovery</td>
+<td style="text-align:left">system:authenticated 组</td>
+<td style="text-align:left">允许以只读方式访问 API 发现端点，这些端点用来发现和协商 API 级别。在1.14版本之前，这个角色在默认情况下绑定在 <code>system:unauthenticated</code> 上。</td>
+</tr>
+<tr>
+<td>system:public-info-viewer</td>
+<td style="text-align:left">system:authenticated 和 system:unauthenticated 组</td>
+<td style="text-align:left">允许对集群的非敏感信息进行只读访问，它是在1.14版本中引入的。<!-- raw HTML omitted --></td>
+</tr>
+</tbody>
+</table>
+<h3 id="面向用户的角色">面向用户的角色</h3>
+<p>一些默认的角色不是前缀 system: 开头的。这些是面向用户的角色。它们包括 super-user 角色（cluster-admin）， 使用 ClusterRoleBindings （cluster-status）在集群范围内授予角色， 以及使用 RoleBindings （admin, edit, view）在特定命名空间中授予的角色。</p>
+<p>在 1.9 开始，面向用户的角色使用ClusterRole Aggregation允许管理员在包含这些角色上的 自定义资源上添加规则。如果想要添加 “admin” “edit” 或者 “view” ，需要先创建使用以下一个或多个的 ClusterRole 的标签：</p>
+<pre><code>metadata:
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-admin: &quot;true&quot;
+    rbac.authorization.k8s.io/aggregate-to-edit: &quot;true&quot;
+    rbac.authorization.k8s.io/aggregate-to-view: &quot;true&quot;
+</code></pre><table>
+<thead>
+<tr>
+<th>默认 ClusterRole</th>
+<th style="text-align:center">默认 ClusterRoleBinding</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cluster-admin</td>
+<td style="text-align:center">system:masters 组</td>
+<td style="text-align:left">允许超级用户在平台上的任何资源的所有操作。 当在 ClusterRoleBinding 中使用时，可以授权对集群中以及所有命名空间中的全部资源进行完全控制。 当在 RoleBinding 中使用时，可以授权控制 RoleBinding 所在命名空间中的所有资源，包括命名空间本身。</td>
+</tr>
+<tr>
+<td>admin</td>
+<td style="text-align:center">无</td>
+<td style="text-align:left">允许管理员访问权限，旨在使用 RoleBinding 在命名空间内执行授权。 如果在 RoleBinding 中使用，则可授予对命名空间中的大多数资源的读/写权限， 包括创建角色和绑定角色（RoleBinding）的能力。 但是它不允许对资源配额或者命名空间本身进行写操作。</td>
+</tr>
+<tr>
+<td>edit</td>
+<td style="text-align:center">无</td>
+<td style="text-align:left">允许对命名空间的大多数对象进行读/写操作。 它不允许查看或者修改角色（Roles）或者角色绑定（RoleBindings）。</td>
+</tr>
+<tr>
+<td>view</td>
+<td style="text-align:center">无</td>
+<td style="text-align:left">允许对命名空间的大多数对象有只读权限。 它不允许查看角色（Roles）或角色绑定（RoleBindings）。 它不允许查看 Secrets，因为这类操作属于越权。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="核心组件角色">核心组件角色</h3>
+<table>
+<thead>
+<tr>
+<th>默认 ClusterRole</th>
+<th style="text-align:center">默认 ClusterRoleBinding</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>system:kube-scheduler</td>
+<td style="text-align:center">system:kube-scheduler 用户</td>
+<td style="text-align:left">允许访问 kube-scheduler 组件所需要的资源。</td>
+</tr>
+<tr>
+<td>system:volume-scheduler</td>
+<td style="text-align:center">system:kube-scheduler 用户</td>
+<td style="text-align:left">允许访问 kube-scheduler 组件所需要的的卷资源。</td>
+</tr>
+<tr>
+<td>system:kube-controller-manager</td>
+<td style="text-align:center">system:kube-controller-manager 用户</td>
+<td style="text-align:left">允许访问 kube-controller-manager 组件所需要的资源。 各个控制环所需要的权限包含在 controller roles 之中。</td>
+</tr>
+<tr>
+<td>system:node</td>
+<td style="text-align:center">在版本1.8之后无</td>
+<td style="text-align:left">允许访问 kubelet 组件所需要的资源，它包括读取所有的 Secrets 和对所有 Pod 状态对象的写操作。 从版本 1.7 开始，推荐使用 Node authorizer 和 NodeRestriction 准入插件 来代替这个角色，它允许基于 kubelet 上调度执行的 Pods 来授权对 kubelet API 的访问。 在版本 1.7 之前，这个角色会自动绑定到 <code>system:nodes</code> 组。 在版本 1.7中，如果未启用<code>Node</code> 鉴权模式，这个角色将自动绑定到 <code>system:nodes</code> 组 在版本 1.8+ 之后，不再自动创建绑定。</td>
+</tr>
+<tr>
+<td>system:node-proxier</td>
+<td style="text-align:center">system:kube-proxy 用户</td>
+<td style="text-align:left">允许访问 kube-proxy 组件所需要的资源。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="其他组件角色">其他组件角色</h3>
+<table>
+<thead>
+<tr>
+<th>默认 ClusterRole</th>
+<th style="text-align:center">默认 ClusterRoleBinding</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>system:auth-delegator</td>
+<td style="text-align:center">无</td>
+<td style="text-align:left">允许代理身份认证和鉴权， 它通常用在插件式 API 服务器上，以实现统一的身份认证和鉴权。</td>
+</tr>
+<tr>
+<td>system:heapster</td>
+<td style="text-align:center">无</td>
+<td style="text-align:left">为 Heapster 组件定义的角色。</td>
+</tr>
+<tr>
+<td>system:kube-aggregator</td>
+<td style="text-align:center">无</td>
+<td style="text-align:left">为 kube-aggregator 组件定义的角色。</td>
+</tr>
+<tr>
+<td>system:kube-dns</td>
+<td style="text-align:center">在kube-system命名空间中的kube-dns服务账号</td>
+<td style="text-align:left">为 kube-dns 组件定义的角色。</td>
+</tr>
+<tr>
+<td>system:kubelet-api-admin</td>
+<td style="text-align:center">无</td>
+<td style="text-align:left">允许完全访问 kubelet API 。</td>
+</tr>
+<tr>
+<td>system:node-bootstrapper</td>
+<td style="text-align:center">无</td>
+<td style="text-align:left">允许访问执行 Kubelet TLS 启动引导 所需要的资源。</td>
+</tr>
+<tr>
+<td>system:node-problem-detector</td>
+<td style="text-align:center">无</td>
+<td style="text-align:left">为 node-problem-detector 组件定义的角色。</td>
+</tr>
+<tr>
+<td>system:persistent-volume-provisioner</td>
+<td style="text-align:center">无</td>
+<td style="text-align:left">允许访问大部分的 动态卷驱动 所需要的资源。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="控制器角色">控制器角色</h3>
+<p>Kubernetes 控制器管理器 运行核心控制环。 当使用 &ndash;use-service-account-credentials 参数时, 每个控制环使用一个单独的服务账号启动。 每个控制环都有相应的、前缀为 system:controller: 的角色。 如果控制管理器启动时未设置 &ndash;use-service-account-credentials， 它使用自己的身份信息来运行所有的控制环，该身份必须被授予所有相关的角色。 这些角色包括:</p>
+<ul>
+<li>system:controller:attachdetach-controller</li>
+<li>system:controller:certificate-controller</li>
+<li>system:controller:clusterrole-aggregation-controller</li>
+<li>system:controller:cronjob-controller</li>
+<li>system:controller:daemon-set-controller</li>
+<li>system:controller:deployment-controller</li>
+<li>system:controller:disruption-controller</li>
+<li>system:controller:endpoint-controller</li>
+<li>system:controller:expand-controller</li>
+<li>system:controller:generic-garbage-collector</li>
+<li>system:controller:horizontal-pod-autoscaler</li>
+<li>system:controller:job-controller</li>
+<li>system:controller:namespace-controller</li>
+<li>system:controller:node-controller</li>
+<li>system:controller:persistent-volume-binder</li>
+<li>system:controller:pod-garbage-collector</li>
+<li>system:controller:pv-protection-controller</li>
+<li>system:controller:pvc-protection-controller</li>
+<li>system:controller:replicaset-controller</li>
+<li>system:controller:replication-controller</li>
+<li>system:controller:resourcequota-controller</li>
+<li>system:controller:root-ca-cert-publisher</li>
+<li>system:controller:route-controller</li>
+<li>system:controller:service-account-controller</li>
+<li>system:controller:service-controller</li>
+<li>system:controller:statefulset-controller</li>
+<li>system:controller:ttl-controller</li>
+</ul>
+<h3 id="初始化与预防权限升级">初始化与预防权限升级</h3>
+<p>RBAC API 会阻止用户通过编辑角色或者角色绑定来升级权限。 由于这一点是在 API 级别实现的，所以在 RBAC 鉴权器（RBAC authorizer）未启用的状态下依然可以正常工作。</p>
+<p>用户只有在符合下列条件之一的情况下，才能创建/更新角色:</p>
+<ol>
+<li>他们已经拥有角色中包含的所有权限，且其作用域与正被修改的对象相同。 （对 ClusterRole 而言意味着集群范围，对 Role 而言意味着相同命名空间或者集群范围）</li>
+<li>他们被明确允许在 rbac.authorization.k8s.io API 组中的 roles 或者 clusterroles 资源上使用 escalate 动词（Kubernetes 版本 1.12 及以上）</li>
+</ol>
+<p>例如，如果 “user-1” 没有列举集群范围所有 Secrets 的权限，他将不能创建包含对应权限的 ClusterRole。 若要允许用户创建/更新角色：</p>
+<p>根据需要授予他们一个角色，允许他们根据需要创建/更新 Role 或者 ClusterRole 对象。 2. 授予他们在所创建/更新角色中包含特殊权限的权限: * 隐式的，通过给他们权限（如果它们试图创建或者更改 Role 或 ClusterRole 的权限，但自身没有被授权，API 请求将被禁止） * 或通过允许他们在 Role 或 ClusterRole 资源上执行 escalate 动作的权限，它包含在 rbac.authorization.k8s.io API 组中 （Kubernetes 1.12 及以上版本）</p>
+<p>如果用户已经拥有引用角色中包含的权限，那他则只能创建/更新角色绑定。 （在角色绑定相同的作用域内）或 如果他们被授予对所引用角色执行 bind 操作的显式权限。 例如，如果 “user-1” 没有集群范围内 Secret 的列表权限，他就不能创建可以授予角色权限的 ClusterRoleBinding。 通过以下方法可以允许用户创建/更新角色绑定：</p>
+<p>授予他们一个角色，允许他们根据需要创建/更新 RoleBinding 或者ClusterRoleBinding 对象。 2. 授予他们绑定特定角色所需的权限: * 隐式地，通过给他们授予角色中包含的权限。 * 显式地，通过允许他们对特定角色（或集群角色）执行bind 操作的权限。</p>
+<p>例如，这个集群角色和角色绑定将允许 “user-1” 有对”user-1-namespace” 命名空间中的角色执行 admin、edit 和 view 操作权限：</p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: role-grantor
+rules:
+- apiGroups: [&quot;rbac.authorization.k8s.io&quot;]
+  resources: [&quot;rolebindings&quot;]
+  verbs: [&quot;create&quot;]
+- apiGroups: [&quot;rbac.authorization.k8s.io&quot;]
+  resources: [&quot;clusterroles&quot;]
+  verbs: [&quot;bind&quot;]
+  resourceNames: [&quot;admin&quot;,&quot;edit&quot;,&quot;view&quot;]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: role-grantor-binding
+  namespace: user-1-namespace
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: role-grantor
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: user-1
+</code></pre><p>当初始化第一个角色和角色绑定时，需要为初始用户授予他们尚未拥有的权限。 对初始角色和角色绑定进行初始化时需要：</p>
+<ul>
+<li>使用用户组为 system:masters 的凭据，该用户组由默认绑定关联到 cluster-admin 这个超级用户角色。</li>
+<li>如果你的 API server 启动时启用了不安全端口（使用&ndash;insecure-port）, 你也可以通过该端口调用 API ，这样操作会绕过身份验证或鉴权。</li>
+</ul>
+<h2 id="一些命令行工具">一些命令行工具</h2>
+<h3 id="kubectl-create-role">kubectl create role</h3>
+<p>创建 Role 对象，定义在某命名空间中的权限。例如:</p>
+<ul>
+<li>创建名称为 “pod-reader” 的 Role 对象，允许用户对 pods 执行 “get”、”watch” 和 “list” 操作：</li>
+</ul>
+<pre><code>kubectl create role pod-reader --verb=get --verb=list --verb=watch --resource=pods
+</code></pre><ul>
+<li>创建名称为 “pod-reader” 的 Role 对象并指定 resourceNames：</li>
+</ul>
+<pre><code>kubectl create role pod-reader --verb=get --resource=pods --resource-name=readablepod --resource-name=anotherpod
+</code></pre><ul>
+<li>创建名为 “foo” 的 Role 对象并指定 apiGroups:</li>
+</ul>
+<pre><code>kubectl create role foo --verb=get,list,watch --resource=replicasets.apps
+</code></pre><ul>
+<li>创建名为 “foo” 的 Role 对象并指定子资源权限:</li>
+</ul>
+<pre><code>kubectl create role foo --verb=get,list,watch --resource=pods,pods/status
+</code></pre><ul>
+<li>创建名为 “my-component-lease-holder” 的 Role 对象，使其具有对特定名称资源执行 get/update 的权限：</li>
+</ul>
+<pre><code>kubectl create role my-component-lease-holder --verb=get,list,watch,update --resource=lease --resource-name=my-component
+</code></pre><h3 id="kubectl-create-clusterrole">kubectl create clusterrole</h3>
+<p>创建 ClusterRole 对象。例如：</p>
+<ul>
+<li>创建名称为 “pod-reader” 的 ClusterRole 对象，允许用户对 pods 对象执行 “get”、”watch” 和 “list” 操作：</li>
+</ul>
+<pre><code>kubectl create clusterrole pod-reader --verb=get,list,watch --resource=pods
+</code></pre><ul>
+<li>创建名为 “pod-reader” 的 ClusterRole 对象并指定资源名称：</li>
+</ul>
+<pre><code>kubectl create clusterrole pod-reader --verb=get --resource=pods --resource-name=readablepod --resource-name=anotherpod
+</code></pre><ul>
+<li>创建名为 “foo” 的 ClusterRole 对象并指定 apiGroups：</li>
+</ul>
+<pre><code>kubectl create clusterrole foo --verb=get,list,watch --resource=replicasets.apps
+</code></pre><ul>
+<li>创建名为 “foo” 的ClusterRole 对象并指定子资源:</li>
+</ul>
+<pre><code>kubectl create clusterrole foo --verb=get,list,watch --resource=pods,pods/status
+</code></pre><ul>
+<li>创建名为 “foo” 的 ClusterRole 对象并指定非资源路径：</li>
+</ul>
+<pre><code>kubectl create clusterrole &quot;foo&quot; --verb=get --non-resource-url=/logs/*
+</code></pre><ul>
+<li>创建名为 “monitoring” 的 ClusterRole 对象并指定聚合规则：</li>
+</ul>
+<pre><code>kubectl create clusterrole monitoring --aggregation-rule=&quot;rbac.example.com/aggregate-to-monitoring=true&quot;
+</code></pre><h3 id="kubectl-create-rolebinding">kubectl create rolebinding</h3>
+<p>在特定的命名空间中对 Role 或 ClusterRole 授权。例如：</p>
+<ul>
+<li>在命名空间 “acme” 中，将名为 admin 的 ClusterRole 中的权限授予名称 “bob” 的用户:</li>
+</ul>
+<pre><code>kubectl create rolebinding bob-admin-binding --clusterrole=admin --user=bob --namespace=acme
+</code></pre><ul>
+<li>在命名空间 “acme”中，将名为 view 的 ClusterRole 中的权限授予该命名空间 “acme” 中名为 “myapp” 的服务账号：</li>
+</ul>
+<pre><code>kubectl create rolebinding myapp-view-binding --clusterrole=view --serviceaccount=acme:myapp --namespace=acme
+</code></pre><ul>
+<li>在命名空间 “acme” 中，将名为 view 的 ClusterRole 对象中的权限授予命名空间 “myappnamespace” 中名称为 “myapp” 的服务账号：</li>
+</ul>
+<pre><code>kubectl create rolebinding myappnamespace-myapp-view-binding --clusterrole=view --serviceaccount=myappnamespace:myapp --namespace=acme
+</code></pre><h3 id="kubectl-create-clusterrolebinding">kubectl create clusterrolebinding</h3>
+<p>在整个集群、包括所有的命名空间中对 ClusterRole 授权。例如：</p>
+<ul>
+<li>在整个集群范围，将名为 cluster-admin 的 ClusterRole 中定义的权限授予名为 “root” 用户：</li>
+</ul>
+<pre><code>kubectl create clusterrolebinding root-cluster-admin-binding --clusterrole=cluster-admin --user=root
+</code></pre><ul>
+<li>在整个集群范围，将名为 system:node-proxier 的 ClusterRole 的权限授予名为 “system:kube-proxy” 的用户：</li>
+</ul>
+<pre><code>kubectl create clusterrolebinding kube-proxy-binding --clusterrole=system:node-proxier --user=system:kube-proxy
+</code></pre><ul>
+<li>在整个集群范围，将名为 view 的 ClusterRole 对象中定义的权限授予 “acme” 命名空间中名为 “myapp” 的服务账号：</li>
+</ul>
+<pre><code>kubectl create clusterrolebinding myapp-view-binding --clusterrole=view --serviceaccount=acme:myapp
+</code></pre><h3 id="kubectl-auth-reconcile">kubectl auth reconcile</h3>
+<p>使用清单文件来创建或者更新 rbac.authorization.k8s.io/v1 API 对象。</p>
+<p>尚不存在的对象会被创建，如果对应的命名空间也不存在，必要的话也会被创建。 已经存在的角色会被更新，使之包含输入对象中所给的权限。如果指定了 &ndash;remove-extra-permissions，可以删除其余权限。</p>
+<p>已经存在的绑定也会被更新，使之包含输入对象中所给的主体。如果指定了 &ndash;remove-extra-permissions，则可以删除其余主体。</p>
+<p>例如:</p>
+<ul>
+<li>测试应用 RBAC 对象的清单文件，显示将要进行的更改：</li>
+</ul>
+<pre><code>kubectl auth reconcile -f my-rbac-rules.yaml --dry-run
+</code></pre><ul>
+<li>应用 RBAC 对象的清单文件， 保留角色中的其余权限和绑定中的其他主体：</li>
+</ul>
+<pre><code> kubectl auth reconcile -f my-rbac-rules.yaml
+</code></pre><ul>
+<li>应用 RBAC 对象的清单文件, 删除角色中的其他权限和绑定中的其他主体：</li>
+</ul>
+<pre><code>kubectl auth reconcile -f my-rbac-rules.yaml --remove-extra-subjects --remove-extra-permissions
+</code></pre><p>查看 CLI 帮助获取详细的用法。</p>
+<h2 id="服务账号权限">服务账号权限</h2>
+<p>默认的 RBAC 策略为控制面组件、节点和控制器授予权限。 但是不会对 kube-system 命名空间之外的服务账号授予权限。 （除了授予所有已认证用户的 discovery 权限）</p>
+<p>这使得您可以根据需要向特定服务账号授予特定权限。 细粒度的角色绑定可带来更好的安全性，但需要更多精力管理。 更粗粒度的授权可能导致服务账号被授予不必要的 API 访问权限（甚至导致潜在的权限升级），但更易于管理。</p>
+<p>按从最安全到最不安全的顺序，存在以下方法：</p>
+<ol>
+<li>为特定应用的服务账户授予角色（最佳实践）</li>
+</ol>
+<p>这要求应用在其 pod 规范中指定 serviceAccountName ， 并额外创建服务账号（包括通过 API、应用程序清单、kubectl create serviceaccount 等）。</p>
+<p>例如，在命名空间 “my-namespace” 中授予服务账号 “my-sa” 只读权限：</p>
+<pre><code>kubectl create rolebinding my-sa-view \
+  --clusterrole=view \
+  --serviceaccount=my-namespace:my-sa \
+  --namespace=my-namespace
+</code></pre><ol start="2">
+<li>将角色授予某命名空间中的 ”default” 服务账号</li>
+</ol>
+<p>如果一个应用没有指定 serviceAccountName，那么它将使用 “default” 服务账号。</p>
+<blockquote>
+<p>注意： 不指定 serviceAccountName 的话， “default” 服务账号的权限会授予给命名空间中所有未指定 serviceAccountName 的 Pods。</p>
+</blockquote>
+<p>例如，在命名空间 “my-namespace” 中授予服务账号 “default” 只读权限：</p>
+<pre><code>kubectl create rolebinding default-view \
+  --clusterrole=view \
+  --serviceaccount=my-namespace:default \
+  --namespace=my-namespace
+</code></pre><p>许多附加组件 add-ons 目前在 kube-system 命名空间以 “default” 服务账号运行。 要允许这些附加组件以超级用户权限运行，需要将集群的 cluster-admin 权限授予 kube-system 命名空间中的 “default” 服务账号。</p>
+<blockquote>
+<p>注意： 启用这一配置意味着在 kube-system 命名空间中包含以超级用户账号来访问 API 的 Secrets。</p>
+</blockquote>
+<pre><code>kubectl create clusterrolebinding add-on-cluster-admin \
+  --clusterrole=cluster-admin \
+  --serviceaccount=kube-system:default
+</code></pre><ol>
+<li>将角色授予命名空间中所有的服务账号</li>
+</ol>
+<p>如果你想要在命名空间中所有的应用都具有某角色，无论它们使用的什么服务账号， 你可以将角色授予该命名空间的服务账号组。</p>
+<p>例如，在命名空间 “my-namespace” 中的只读权限授予该命名空间中的所有服务账号：</p>
+<pre><code>kubectl create rolebinding serviceaccounts-view \
+  --clusterrole=view \
+  --group=system:serviceaccounts:my-namespace \
+  --namespace=my-namespace
+</code></pre><ol start="2">
+<li>对集群范围内的所有服务账户授予一个受限角色（不鼓励）</li>
+</ol>
+<p>如果你不想管理每一个命名空间的权限，你可以向所有的服务账号授予集群范围的角色。</p>
+<p>例如，为集群范围的所有服务账号授予跨所有命名空间的只读权限：</p>
+<pre><code>kubectl create clusterrolebinding serviceaccounts-view \
+  --clusterrole=view \
+ --group=system:serviceaccounts
+</code></pre><ol start="3">
+<li>授予超级用户访问权限给集群范围内的所有服务帐户（强烈不鼓励）</li>
+</ol>
+<p>如果你不关心如何区分权限，你可以将超级用户访问权限授予所有服务账号。</p>
+<blockquote>
+<p>警告：
+这将允许所有能够读取 Secrets 和创建 Pods 的用户访问超级用户的私密信息。</p>
+</blockquote>
+<pre><code>kubectl create clusterrolebinding serviceaccounts-cluster-admin \
+  --clusterrole=cluster-admin \
+  --group=system:serviceaccounts
+</code></pre><h2 id="从版本15升级">从版本1.5升级</h2>
+<p>在Kubernetes 1.6版本之前，许多部署可以使用非常宽松的 ABAC 策略， 包括授予所有服务帐户全权访问 API 的能力。</p>
+<p>默认的 RBAC 策略被授予控制面组件、节点和控制器。 kube-system 命名空间外的服务账号将没有权限 （除了授予所有认证用户的发现权限之外）</p>
+<p>这样做虽然安全得多，但可能会干扰期望自动获得 API 权限的现有工作负载。 这里有两种方法来完成这种转变:</p>
+<h3 id="平行鉴权">平行鉴权</h3>
+<p>同时运行 RBAC 和 ABAC 鉴权模式, 并指定包含 现有的 ABAC 策略 的策略文件：</p>
+<pre><code>--authorization-mode=RBAC,ABAC --authorization-policy-file=mypolicy.json
+</code></pre><p>RBAC 鉴权器将首先尝试对请求进行鉴权。如果它拒绝 API 请求， 则 ABAC 鉴权器运行。这意味着被 RBAC 或 ABAC 策略所允许的任何请求 都是被允许的请求。</p>
+<p>如果 API 服务器启动时，RBAC 组件的日志级别为 5 或更高（&ndash;vmodule=rbac*=5 or &ndash;v=5）， 你可以在 API 服务器的日志中看到 RBAC 的细节 （前缀 RBAC DENY:） 您可以使用这些信息来确定需要将哪些角色授予哪些用户、组或服务帐户。 一旦你将 角色授予服务账号 ，工作负载运行时在服务器日志中 没有出现 RBAC 拒绝消息，就可以删除 ABAC 鉴权器。</p>
+<h3 id="宽松的-rbac-权限">宽松的 RBAC 权限</h3>
+<p>可以使用 RBAC 角色绑定在多个场合使用宽松的策略。</p>
+<blockquote>
+<p>警告：
+下面的策略允许 所有 服务帐户充当集群管理员。 容器中运行的所有应用程序都会自动收到服务帐户的凭据， 可以对 API 执行任何操作，包括查看 Secrets 和修改权限。 这个策略是不被推荐的。</p>
+</blockquote>
+<pre><code>kubectl create clusterrolebinding permissive-binding \
+  --clusterrole=cluster-admin \
+  --user=admin \
+  --user=kubelet \
+  --group=system:serviceaccounts
+</code></pre>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="http://blog.nginxs.com/">Eric</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="http://blog.nginxs.com/posts/k8s-v1.17-rbac/">http://blog.nginxs.com/posts/k8s-v1.17-rbac/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/posts/force-disconnect-ssh/">Force Disconnect Ssh</a></li>
+        
+        <li><a href="/posts/linux-tc-qos/">Linux Tc Qos</a></li>
+        
+        <li><a href="/posts/my-first-post/">My First Post</a></li>
+        
+        <li><a href="/posts/openvpn-process-exit/">Openvpn异常退出</a></li>
+        
+        <li><a href="/posts/linux-format-error/">Linux分区错误</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/k8s'>k8s</a></li>
+                
+                <li><a href='/tags/kubernetes'>Kubernetes</a></li>
+                
+                <li><a href='/tags/%E5%AE%B9%E5%99%A8'>容器</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="http://blog.nginxs.com/">Eric&#39;s blog By Eric</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="http://blog.nginxs.com/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">Eric</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='http://blog.nginxs.com/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://blog.nginxs.com/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/k8s-v1.17-rbac/" title="K8s V1">K8s V1</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/force-disconnect-ssh/" title="Force Disconnect Ssh">Force Disconnect Ssh</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/linux-tc-qos/" title="Linux Tc Qos">Linux Tc Qos</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/my-first-post/" title="My First Post">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/openvpn-process-exit/" title="Openvpn异常退出">Openvpn异常退出</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/linux-format-error/" title="Linux分区错误">Linux分区错误</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/linux-force-reboot/" title="Linux Force Reboot">Linux Force Reboot</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/sed-del-html/" title="Sed过滤html标签">Sed过滤html标签</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/thttpd-and-php-5.3.3/" title="thttpd and php 5.3">thttpd and php 5.3</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.nginxs.com/posts/postfix-mysql-dovecot-postfixadmin/" title="Postfix Mysql Dovecot Postfixadmin">Postfix Mysql Dovecot Postfixadmin</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title" style="color:black">福利派送</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a href="https://curl.qcloud.com/lAR5StCQ" title="腾讯云打折入口" target="_blank" style="color:red">
+                
+                    <img src="https://upload-dianshi-1255598498.file.myqcloud.com/345-60759ea0b2a21d3d1c764570c2a9f2960bfdf128.200.jpg">
+                
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="http://blog.nginxs.com/categories/k8s/">k8s (1)</a></li>
+    
+    <li><a href="http://blog.nginxs.com/categories/%E5%B0%8F%E7%9F%A5%E8%AF%86/">小知识 (4)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="http://blog.nginxs.com/tags/k8s/">k8s</a>
+    
+    <a href="http://blog.nginxs.com/tags/kernel/">kernel</a>
+    
+    <a href="http://blog.nginxs.com/tags/kubernetes/">Kubernetes</a>
+    
+    <a href="http://blog.nginxs.com/tags/lfs/">lfs</a>
+    
+    <a href="http://blog.nginxs.com/tags/linux/">linux</a>
+    
+    <a href="http://blog.nginxs.com/tags/mkfs/">mkfs</a>
+    
+    <a href="http://blog.nginxs.com/tags/openvpn/">openvpn</a>
+    
+    <a href="http://blog.nginxs.com/tags/php/">php</a>
+    
+    <a href="http://blog.nginxs.com/tags/postfix/">postfix</a>
+    
+    <a href="http://blog.nginxs.com/tags/postfixadmin/">postfixadmin</a>
+    
+    <a href="http://blog.nginxs.com/tags/sed/">sed</a>
+    
+    <a href="http://blog.nginxs.com/tags/ssh/">ssh</a>
+    
+    <a href="http://blog.nginxs.com/tags/tc/">tc</a>
+    
+    <a href="http://blog.nginxs.com/tags/test/">test</a>
+    
+    <a href="http://blog.nginxs.com/tags/thttpd/">thttpd</a>
+    
+    <a href="http://blog.nginxs.com/tags/%E5%AE%B9%E5%99%A8/">容器</a>
+    
+    <a href="http://blog.nginxs.com/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/">小知识</a>
+    
+    <a href="http://blog.nginxs.com/tags/%E6%97%A0%E5%93%8D%E5%BA%94/">无响应</a>
+    
+    <a href="http://blog.nginxs.com/tags/%E9%82%AE%E7%AE%B1/">邮箱</a>
+    
+    <a href="http://blog.nginxs.com/tags/%E9%99%90%E9%80%9F/">限速</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://blog.heylinux.com" title="呆萌锅的博客">呆萌锅的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://blog.nginxs.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
